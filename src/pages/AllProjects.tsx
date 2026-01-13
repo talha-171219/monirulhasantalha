@@ -4,7 +4,7 @@ import { projects as staticProjects } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/unsafeClient";
+import { supabase } from "@/integrations/supabase/client";
 import { RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { Project } from "@/data/projects";

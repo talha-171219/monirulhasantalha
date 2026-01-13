@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { motion, type Variants, type Easing } from "framer-motion";
 import { projects as staticProjects } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
-import { supabase } from "@/integrations/supabase/unsafeClient";
+import { supabase } from "@/integrations/supabase/client";
 import type { Project } from "@/data/projects";
 
 const Home = () => {
