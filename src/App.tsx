@@ -26,8 +26,8 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <PWAInstallPrompt />
       <BrowserRouter>
+        <PWAInstallPrompt />
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
