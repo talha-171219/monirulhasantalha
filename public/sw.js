@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v4";
+const CACHE_VERSION = "v6";
 const CORE_CACHE = `talha-portfolio-core-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `talha-portfolio-runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline.html";
@@ -8,11 +8,12 @@ const CORE_ASSETS = [
   "/index.html",
   "/manifest.json",
   OFFLINE_URL,
-  "/favicon-32.png",
+  "/favicon.png",
   "/pwa-192.png",
   "/pwa-512.png",
   "/apple-touch-icon.png",
-  "/splash-screen.jpg",
+  "/splash-screen.png",
+  "/app-icon.png",
 ];
 
 
