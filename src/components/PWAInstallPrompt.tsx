@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Download, ExternalLink, Smartphone, X } from "lucide-react";
+import { Download, Smartphone, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -106,8 +106,22 @@ export const PWAInstallPrompt = () => {
     localStorage.setItem(LS_DISMISSED_FOREVER, "1");
   };
 
-  const handleOpenNewTab = () => {
-    window.open(window.location.href, "_blank", "noopener,noreferrer");
+  const handleTryInstallAgain = async () => {
+    // If browser has native install available, trigger it
+    if (deferredPrompt) {
+      try {
+        await deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+
+        if (outcome === "accepted") {
+          setIsInstalled(true);
+          setShowPrompt(false);
+          setDeferredPrompt(null);
+        }
+      } catch (error) {
+        console.error("Install error:", error);
+      }
+    }
   };
 
   if (isInstalled || !showPrompt) return null;
@@ -202,12 +216,14 @@ export const PWAInstallPrompt = () => {
                       )}
                     </div>
 
-                    <div className="mt-3">
-                      <Button onClick={handleOpenNewTab} variant="secondary" className="w-full gap-2">
-                        <ExternalLink className="h-4 w-4" />
-                        Open in new tab
-                      </Button>
-                    </div>
+                    {deferredPrompt && (
+                      <div className="mt-3">
+                        <Button onClick={handleTryInstallAgain} variant="secondary" className="w-full gap-2">
+                          <Download className="h-4 w-4" />
+                          Try Install Again
+                        </Button>
+                      </div>
+                    )}
 
                     <div className="mt-2">
                       <Button onClick={handleDismissForever} variant="ghost" className="w-full text-muted-foreground hover:text-foreground">
