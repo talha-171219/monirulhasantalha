@@ -35,7 +35,17 @@ const Home = () => {
     }
   };
 
-  const featuredProjects = projects.filter((p) => p.featured);
+  // Show only specific projects on home page
+  const homeProjectIds = [
+    "al-quran",
+    "muslim-corner", 
+    "private-vault",
+    "studyflow",
+    "hsc-ques-exam",
+    "workspace-canvas-pro",
+    "study-helper"
+  ];
+  const featuredProjects = projects.filter((p) => homeProjectIds.includes(p.id));
 
   const easeOut: Easing = [0.16, 1, 0.3, 1];
 
