@@ -48,6 +48,7 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  // ===== AL-QURAN (Always First) =====
   {
     id: "al-quran",
     title: "Al Quran",
@@ -58,6 +59,160 @@ export const projects: Project[] = [
     featured: true,
     premium: true
   },
+
+  // ===== NEW 15 PREMIUM PROJECTS (Serial Order) =====
+  {
+    id: "hajj-journey-guide",
+    title: "Hajj Journey Guide",
+    description: "Complete guide for Hajj pilgrimage with step-by-step instructions",
+    thumbnail: alQuranThumb,
+    appUrl: "https://hajj-journey-guide-by-talha.lovable.app",
+    category: "Religion",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "mesbahul-alam-library",
+    title: "Mesbahul Alam Library",
+    description: "Digital library platform for educational resources and books",
+    thumbnail: onlineCourseThumb,
+    appUrl: "https://mesbahulalam-library01.lovable.app",
+    category: "Education",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "telegram-id",
+    title: "Telegram ID",
+    description: "Utility tool to find and share Telegram user IDs",
+    thumbnail: chatAppThumb,
+    appUrl: "https://telegram-id-hazel.vercel.app/",
+    category: "Utility",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "flowrec",
+    title: "FlowRec",
+    description: "Advanced screen recording and streaming tool for PC",
+    thumbnail: screenRecorderThumb,
+    appUrl: "https://flowrecby-talha-final.lovable.app",
+    category: "Productivity",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "private-vault",
+    title: "Private Vault",
+    description: "Secure vault to store and protect your private files and data",
+    thumbnail: lockDiaryThumb,
+    appUrl: "https://privatevault-01.lovable.app/",
+    category: "Utility",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "lock-diary",
+    title: "Lock Diary",
+    description: "Password-protected diary for personal notes and journaling",
+    thumbnail: lockDiaryThumb,
+    appUrl: "https://lock-diary-bytalha.vercel.app/",
+    category: "Lifestyle",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "chatspark",
+    title: "ChatSpark",
+    description: "Real-time messaging app for instant communication",
+    thumbnail: chatAppThumb,
+    appUrl: "https://chatsparkwithyouandme2.lovable.app",
+    category: "Communication",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "exam-simulator-pro",
+    title: "Exam Simulator Pro",
+    description: "Professional exam simulation platform for practice tests",
+    thumbnail: hscQuizThumb,
+    appUrl: "https://examsimulatorprobytalha-final.lovable.app",
+    category: "Education",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "studyflow",
+    title: "StudyFlow",
+    description: "Complete study management app with schedules and progress tracking",
+    thumbnail: studyHelperThumb,
+    appUrl: "https://studyflowbytalha-final.vercel.app/",
+    category: "Education",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "hsc-ques-exam",
+    title: "HSC Ques & Exam",
+    description: "HSC question bank and exam practice platform",
+    thumbnail: hscQuizThumb,
+    appUrl: "https://hsc-ques-and-exam-bytalha.lovable.app",
+    category: "Education",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "pure-python-jarvis",
+    title: "Pure Python Jarvis",
+    description: "AI assistant powered by Python for automation and tasks",
+    thumbnail: tabeyaAiThumb,
+    appUrl: "https://pure-python-jarvis.lovable.app",
+    category: "AI / ML",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "personal-ai",
+    title: "Personal AI",
+    description: "Your personal AI companion for daily assistance",
+    thumbnail: tabeyaAiThumb,
+    appUrl: "https://talhas-personal-ai.lovable.app",
+    category: "AI / ML",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "workspace-canvas-pro",
+    title: "Workspace Canvas Pro",
+    description: "Professional workspace and canvas for creative projects",
+    thumbnail: smartboardThumb,
+    appUrl: "https://workspace-canvaspro-by-talha.lovable.app",
+    category: "Productivity",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "cycletime-monthly",
+    title: "CycleTime Monthly",
+    description: "Monthly cycle tracking and health monitoring app",
+    thumbnail: calendeThumb,
+    appUrl: "https://cycletime-monthly.vercel.app/",
+    category: "Health & Fitness",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "safe-haven-timer",
+    title: "Safe Haven Timer",
+    description: "Productivity timer with focus sessions and break reminders",
+    thumbnail: focusTimerThumb,
+    appUrl: "https://remix-of-safe-haven-timer.vercel.app/",
+    category: "Productivity",
+    featured: true,
+    premium: true
+  },
+
+  // ===== EXISTING PROJECTS (Same Order) =====
   {
     id: "portfolio",
     title: "Portfolio Website",
@@ -216,15 +371,6 @@ export const projects: Project[] = [
     category: "Utility"
   },
   {
-    id: "screen-recorder",
-    title: "SS Recorder for PC",
-    description: "পিসির জন্য স্ক্রিনশট/রেকর্ডার ডেমো",
-    thumbnail: screenRecorderThumb,
-    appUrl: "https://talha388204.github.io/webRec/",
-    category: "Utility",
-    premium: true
-  },
-  {
     id: "money-tracker",
     title: "Money Tracking",
     description: "দৈনন্দিন আয়-ব্যয় ট্র্যাক করার জন্য একটি সহজ অ্যাপ",
@@ -341,15 +487,6 @@ export const projects: Project[] = [
     category: "Finance"
   },
   {
-    id: "lock-diary",
-    title: "Lock Diary",
-    description: "Password-protected diary for personal notes and journaling",
-    thumbnail: lockDiaryThumb,
-    appUrl: "https://lock-diary-bytalha.vercel.app/",
-    category: "Lifestyle",
-    premium: true
-  },
-  {
     id: "sos-app",
     title: "SOS App",
     description: "Emergency alert app to quickly contact predefined helpers",
@@ -438,7 +575,7 @@ export const projects: Project[] = [
 export const getBioData = () => ({
   name: "Monirul Hasan Talha",
   tagline: "Web Developer & Tech Enthusiast",
-  bio: "I'm a passionate web developer specializing in HTML, CSS, and JavaScript. I love creating beautiful, functional websites and exploring new technologies.",
+  bio: "I'm a passionate web developer specializing in HTML, CSS, JavaScript and React. I love creating beautiful, functional websites and exploring new technologies.",
   location: "Bogura, Bangladesh",
   phone: "01909751433",
   email: "monirulhasantalha@gmail.com",
