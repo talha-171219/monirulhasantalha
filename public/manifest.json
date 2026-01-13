@@ -1,11 +1,14 @@
 {
   "name": "Monirul Hasan Talha - Portfolio",
   "short_name": "Talha Portfolio",
+  "description": "Web Developer & Tech Enthusiast portfolio showcasing projects and skills",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#08131a",
   "theme_color": "#1db954",
   "orientation": "portrait-primary",
+  "categories": ["portfolio", "developer", "web"],
   "icons": [
     {
       "src": "/app-icon.jpg",
@@ -20,8 +23,6 @@
       "purpose": "any maskable"
     }
   ],
-  "description": "Web Developer & Tech Enthusiast portfolio showcasing projects and skills",
-  "categories": ["portfolio", "developer", "web"],
   "screenshots": [
     {
       "src": "/splash-screen.jpg",
@@ -31,3 +32,4 @@
     }
   ]
 }
+

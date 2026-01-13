@@ -42,6 +42,7 @@ export const PWAInstallPrompt = () => {
   const location = useLocation();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [showPortfolioHelp, setShowPortfolioHelp] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [project, setProject] = useState<Project | null>(null);
 
@@ -103,6 +104,7 @@ export const PWAInstallPrompt = () => {
 
     // Show prompt after 2 seconds
     const t = window.setTimeout(() => {
+      setShowPortfolioHelp(false);
       setShowPrompt(true);
     }, 2000);
 
@@ -128,6 +130,7 @@ export const PWAInstallPrompt = () => {
   }, [isProjectView, projectId]);
 
   const handleInstallClick = async () => {
+    // If browser supports native install prompt, use it.
     if (deferredPrompt) {
       try {
         await deferredPrompt.prompt();
@@ -138,14 +141,23 @@ export const PWAInstallPrompt = () => {
           setDeferredPrompt(null);
           return;
         }
+
+        // dismissed -> show help
+        setShowPortfolioHelp(true);
       } catch (error) {
         console.error("Install error:", error);
+        setShowPortfolioHelp(true);
       }
+      return;
     }
+
+    // No native prompt (iOS/Safari or not installable yet)
+    setShowPortfolioHelp(true);
   };
 
   const handleMaybeLater = () => {
     setShowPrompt(false);
+    setShowPortfolioHelp(false);
     if (isProjectView && projectId) {
       sessionStorage.setItem(`${SS_PROJECT_HIDDEN_PREFIX}${projectId}`, "1");
     } else {
@@ -155,6 +167,7 @@ export const PWAInstallPrompt = () => {
 
   const handleDismissForever = () => {
     setShowPrompt(false);
+    setShowPortfolioHelp(false);
     if (isProjectView && projectId) {
       localStorage.setItem(`${LS_PROJECT_DISMISSED_PREFIX}${projectId}`, "1");
     } else {
@@ -275,27 +288,50 @@ export const PWAInstallPrompt = () => {
 
             {/* Actions */}
             <div className="relative mt-4 flex flex-col gap-2">
-              {deferredPrompt ? (
-                <Button
-                  onClick={handleInstallClick}
-                  className="w-full gap-2 bg-gradient-to-r from-primary to-primary/80 font-medium shadow-lg shadow-primary/25"
-                >
-                  <Download className="h-4 w-4" />
-                  Install Now
-                </Button>
-              ) : (
-                <>
-                  <div className="text-xs text-muted-foreground mb-2">
-                    {platform.isDesktop && "Desktop: Look for the install icon (⊕) in your browser's address bar"}
-                    {platform.isAndroid && "Android: Tap ⋮ menu → Add to Home screen"}
-                    {platform.isIOS && "iPhone/iPad: Tap Share → Add to Home Screen"}
-                  </div>
-                  <Button onClick={handleOpenInNewTab} className="w-full gap-2">
-                    <ExternalLink className="h-4 w-4" />
-                    Open in New Tab
-                  </Button>
-                </>
-              )}
+              <Button
+                onClick={handleInstallClick}
+                className="w-full gap-2 bg-gradient-to-r from-primary to-primary/80 font-medium shadow-lg shadow-primary/25"
+              >
+                <Download className="h-4 w-4" />
+                Install Now
+              </Button>
+
+              <AnimatePresence initial={false}>
+                {showPortfolioHelp && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-1 rounded-xl border border-border/60 bg-muted/30 p-3 text-xs text-muted-foreground">
+                      {platform.isDesktop && (
+                        <p>
+                          Desktop: address bar e <span className="text-foreground">Install</span> icon (computer + down arrow)
+                          ba 3-dot menu → <span className="text-foreground">Install</span>.
+                        </p>
+                      )}
+                      {platform.isAndroid && (
+                        <p>
+                          Android: 3-dot menu → <span className="text-foreground">Add to Home screen</span> / Install app.
+                        </p>
+                      )}
+                      {platform.isIOS && (
+                        <p>
+                          iPhone/iPad (Safari): Share → <span className="text-foreground">Add to Home Screen</span>.
+                        </p>
+                      )}
+                      {!platform.isDesktop && !platform.isAndroid && !platform.isIOS && (
+                        <p>
+                          Browser menu/toolbar e “Install app” / “Add to Home screen” option ta khuje dekho.
+                        </p>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <div className="flex gap-2">
                 <Button onClick={handleMaybeLater} variant="ghost" className="flex-1 text-muted-foreground hover:text-foreground">
                   Maybe Later
