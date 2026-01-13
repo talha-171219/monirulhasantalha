@@ -35,6 +35,7 @@ import translatorThumb from "@/assets/thumbnails/translator.jpg";
 import focusTimerThumb from "@/assets/thumbnails/focus-timer.jpg";
 import eventSplitterThumb from "@/assets/thumbnails/event-splitter.jpg";
 import mgxDemoThumb from "@/assets/thumbnails/mgx-demo.jpg";
+import muslimCornerThumb from "@/assets/thumbnails/muslim-corner.jpg";
 
 export interface Project {
   id: string;
@@ -64,8 +65,8 @@ export const projects: Project[] = [
   {
     id: "muslim-corner",
     title: "Muslim Corner",
-    description: "Complete Islamic app with prayer times, Quran, duas and more",
-    thumbnail: alQuranThumb,
+    description: "Islamic PDF library with Quran, hadith, and Islamic books collection",
+    thumbnail: muslimCornerThumb,
     appUrl: "https://muslim-corner-by-talha.lovable.app",
     category: "Religion",
     featured: true,
