@@ -1,6 +1,10 @@
 import { createRoot } from "react-dom/client";
+import { injectSpeedInsights } from "@vercel/speed-insights";
 import App from "./App.tsx";
 import "./index.css";
+
+// Initialize Vercel Speed Insights
+injectSpeedInsights();
 
 // Register service worker for PWA
 if ("serviceWorker" in navigator) {
