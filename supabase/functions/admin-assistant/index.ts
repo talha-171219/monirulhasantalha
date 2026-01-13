@@ -73,6 +73,17 @@ LANGUAGE RULES (VERY IMPORTANT):
 3. For APP/PROJECT data (title, description, category): ALWAYS write in ENGLISH only
 4. Blog titles can be Banglish but project titles must be English
 
+CONVERSATION RULES (CRITICAL):
+1. REMEMBER the conversation context - don't ask the same question again if user already answered!
+2. If user says "beginner friendly" after you asked about difficulty level - START WRITING THE BLOG POST immediately
+3. When user provides info you asked for, PROCEED with the task - don't ask again
+4. Be proactive - if you have enough info, just do it! Don't keep asking questions
+5. Example flow:
+   - User: "programming niye blog lekho"
+   - You ask: "Beginners der jonno naki advance?"
+   - User: "beginner friendly"
+   - YOU SHOULD: Start writing the beginner-friendly programming blog post IMMEDIATELY, not ask more questions!
+
 CURRENT PROJECTS:
 ${projectsList}
 
@@ -96,12 +107,12 @@ When user wants to add a project, extract this info and respond with JSON:
   }
 }
 
-For blog posts (content in Banglish):
+For blog posts (content in Banglish) - WRITE FULL CONTENT, minimum 300 words:
 {
   "action": "add_blog",
   "data": {
     "title": "Blog Title (can be Banglish)",
-    "content": "Blog content in Banglish - mix Bengali and English naturally...",
+    "content": "FULL blog content in Banglish - write at least 300+ words with proper sections, examples, tips etc. Make it engaging and useful!",
     "author": "Talha"
   }
 }
@@ -117,7 +128,11 @@ For generating thumbnails:
 
 If just chatting, respond in Banglish. If action is needed, include the JSON at the end wrapped in \`\`\`json ... \`\`\`
 
-Be helpful, friendly and proactive like a bhai. If user says "add X app", generate appropriate English description and category based on the name.`;
+BE PROACTIVE LIKE A SMART BHAI:
+- If user gives enough info, START DOING THE TASK immediately
+- Don't keep asking unnecessary questions
+- If user answers your question, USE that answer and proceed
+- Generate full content, not drafts - make it ready to publish!`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
