@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Download, ExternalLink, Smartphone, X } from "lucide-react";
+import { Download, ExternalLink, Smartphone, X, Share2, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
@@ -45,6 +45,7 @@ export const PWAInstallPrompt = () => {
   const [showPortfolioHelp, setShowPortfolioHelp] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [project, setProject] = useState<Project | null>(null);
+  const [showProjectInstallHelp, setShowProjectInstallHelp] = useState(false);
 
   const isProjectView = location.pathname.startsWith("/project/");
   const projectId = isProjectView ? location.pathname.split("/project/")[1] : null;
@@ -105,6 +106,7 @@ export const PWAInstallPrompt = () => {
     // Show prompt after 2 seconds
     const t = window.setTimeout(() => {
       setShowPortfolioHelp(false);
+      setShowProjectInstallHelp(false);
       setShowPrompt(true);
     }, 2000);
 
@@ -129,8 +131,8 @@ export const PWAInstallPrompt = () => {
     };
   }, [isProjectView, projectId]);
 
+  // For portfolio install (main app)
   const handleInstallClick = async () => {
-    // If browser supports native install prompt, use it.
     if (deferredPrompt) {
       try {
         await deferredPrompt.prompt();
@@ -141,8 +143,6 @@ export const PWAInstallPrompt = () => {
           setDeferredPrompt(null);
           return;
         }
-
-        // dismissed -> show help
         setShowPortfolioHelp(true);
       } catch (error) {
         console.error("Install error:", error);
@@ -150,14 +150,18 @@ export const PWAInstallPrompt = () => {
       }
       return;
     }
-
-    // No native prompt (iOS/Safari or not installable yet)
     setShowPortfolioHelp(true);
+  };
+
+  // For project app install - shows instructions to install that specific project
+  const handleProjectInstallClick = () => {
+    setShowProjectInstallHelp(true);
   };
 
   const handleMaybeLater = () => {
     setShowPrompt(false);
     setShowPortfolioHelp(false);
+    setShowProjectInstallHelp(false);
     if (isProjectView && projectId) {
       sessionStorage.setItem(`${SS_PROJECT_HIDDEN_PREFIX}${projectId}`, "1");
     } else {
@@ -168,6 +172,7 @@ export const PWAInstallPrompt = () => {
   const handleDismissForever = () => {
     setShowPrompt(false);
     setShowPortfolioHelp(false);
+    setShowProjectInstallHelp(false);
     if (isProjectView && projectId) {
       localStorage.setItem(`${LS_PROJECT_DISMISSED_PREFIX}${projectId}`, "1");
     } else {
@@ -175,17 +180,15 @@ export const PWAInstallPrompt = () => {
     }
   };
 
-  const handleOpenInNewTab = () => {
-    if (isProjectView && project?.appUrl) {
+  const handleOpenProjectInNewTab = () => {
+    if (project?.appUrl) {
       window.open(project.appUrl, "_blank", "noopener,noreferrer");
-    } else {
-      window.open(window.location.origin, "_blank", "noopener,noreferrer");
     }
   };
 
   if (isInstalled || !showPrompt) return null;
 
-  // For project view - show dialog style
+  // For project view - show dialog to install that specific project app
   if (isProjectView && project) {
     return (
       <Dialog open={showPrompt} onOpenChange={(open) => !open && handleMaybeLater()}>
@@ -204,41 +207,123 @@ export const PWAInstallPrompt = () => {
               Install {project.title}
             </DialogTitle>
             <DialogDescription>
-              You can install this app on your phone or desktop for a better experience.
+              এই app টি আপনার phone বা desktop এ install করুন!
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <h4 className="font-medium text-sm">On Mobile (Android/iPhone):</h4>
-              <ol className="text-sm text-muted-foreground list-decimal list-inside space-y-1">
-                <li>Click the "Open in New Tab" button below</li>
-                <li>Tap the browser menu (⋮ or Share icon)</li>
-                <li>Select "Add to Home Screen" or "Install"</li>
-                <li>Confirm and the app will be installed</li>
-              </ol>
-            </div>
+            {!showProjectInstallHelp ? (
+              <>
+                <div className="rounded-lg border border-primary/20 bg-primary/5 p-4">
+                  <p className="text-sm text-muted-foreground">
+                    <strong className="text-foreground">{project.title}</strong> app টি install করতে নিচের button এ click করুন।
+                  </p>
+                </div>
+                
+                <Button onClick={handleProjectInstallClick} className="w-full gap-2">
+                  <Download className="h-4 w-4" />
+                  Install করুন
+                </Button>
+              </>
+            ) : (
+              <>
+                {/* Installation Instructions */}
+                <div className="space-y-4">
+                  {platform.isAndroid && (
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-sm flex items-center gap-2">
+                        <Smartphone className="h-4 w-4 text-primary" />
+                        Android এ Install করুন:
+                      </h4>
+                      <ol className="text-sm text-muted-foreground space-y-2">
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">1</span>
+                          <span>নিচের "Open App" button এ click করুন</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">2</span>
+                          <span className="flex items-center gap-1">
+                            Browser এর <MoreVertical className="h-3 w-3 inline" /> menu তে tap করুন
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">3</span>
+                          <span>"Add to Home screen" বা "Install app" select করুন</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">4</span>
+                          <span>Confirm করুন - App install হয়ে যাবে!</span>
+                        </li>
+                      </ol>
+                    </div>
+                  )}
 
-            <div className="space-y-2">
-              <h4 className="font-medium text-sm">On Desktop (Chrome/Edge):</h4>
-              <ol className="text-sm text-muted-foreground list-decimal list-inside space-y-1">
-                <li>Click the "Open in New Tab" button below</li>
-                <li>Look for the install icon (⊕) in the address bar</li>
-                <li>Click it and confirm installation</li>
-              </ol>
-            </div>
+                  {platform.isIOS && (
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-sm flex items-center gap-2">
+                        <Smartphone className="h-4 w-4 text-primary" />
+                        iPhone/iPad এ Install করুন:
+                      </h4>
+                      <ol className="text-sm text-muted-foreground space-y-2">
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">1</span>
+                          <span>নিচের "Open App" button এ click করুন</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">2</span>
+                          <span className="flex items-center gap-1">
+                            Safari এর <Share2 className="h-3 w-3 inline" /> Share button এ tap করুন
+                          </span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">3</span>
+                          <span>"Add to Home Screen" select করুন</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">4</span>
+                          <span>"Add" এ tap করুন - Done!</span>
+                        </li>
+                      </ol>
+                    </div>
+                  )}
 
-            <Button onClick={handleOpenInNewTab} className="w-full gap-2">
-              <ExternalLink className="h-4 w-4" />
-              Open in New Tab
-            </Button>
+                  {platform.isDesktop && (
+                    <div className="space-y-3">
+                      <h4 className="font-medium text-sm flex items-center gap-2">
+                        <Download className="h-4 w-4 text-primary" />
+                        Desktop এ Install করুন:
+                      </h4>
+                      <ol className="text-sm text-muted-foreground space-y-2">
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">1</span>
+                          <span>নিচের "Open App" button এ click করুন</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">2</span>
+                          <span>Address bar এ install icon (⊕) দেখবেন</span>
+                        </li>
+                        <li className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center">3</span>
+                          <span>Icon এ click করে "Install" করুন</span>
+                        </li>
+                      </ol>
+                    </div>
+                  )}
 
-            <div className="flex gap-2">
+                  <Button onClick={handleOpenProjectInNewTab} className="w-full gap-2 mt-4">
+                    <ExternalLink className="h-4 w-4" />
+                    Open App
+                  </Button>
+                </div>
+              </>
+            )}
+
+            <div className="flex gap-2 pt-2">
               <Button onClick={handleMaybeLater} variant="outline" className="flex-1">
-                Maybe Later
+                পরে করব
               </Button>
               <Button onClick={handleDismissForever} variant="ghost" className="flex-1 text-muted-foreground">
-                Don't Show Again
+                আর দেখাবে না
               </Button>
             </div>
           </div>
@@ -247,7 +332,7 @@ export const PWAInstallPrompt = () => {
     );
   }
 
-  // For portfolio pages - show floating prompt
+  // For portfolio pages - show floating prompt to install main portfolio app
   return (
     <AnimatePresence>
       {showPrompt && (
@@ -281,7 +366,7 @@ export const PWAInstallPrompt = () => {
               <div className="flex-1 space-y-1">
                 <h3 className="font-semibold text-foreground">Install Portfolio App</h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Install this portfolio app for quick access and offline viewing!
+                  Portfolio app টি install করুন quick access এর জন্য!
                 </p>
               </div>
             </div>
@@ -308,8 +393,8 @@ export const PWAInstallPrompt = () => {
                     <div className="mt-1 rounded-xl border border-border/60 bg-muted/30 p-3 text-xs text-muted-foreground">
                       {platform.isDesktop && (
                         <p>
-                          Desktop: address bar e <span className="text-foreground">Install</span> icon (computer + down arrow)
-                          ba 3-dot menu → <span className="text-foreground">Install</span>.
+                          Desktop: address bar এ <span className="text-foreground">Install</span> icon (⊕)
+                          অথবা 3-dot menu → <span className="text-foreground">Install</span>.
                         </p>
                       )}
                       {platform.isAndroid && (
@@ -324,7 +409,7 @@ export const PWAInstallPrompt = () => {
                       )}
                       {!platform.isDesktop && !platform.isAndroid && !platform.isIOS && (
                         <p>
-                          Browser menu/toolbar e “Install app” / “Add to Home screen” option ta khuje dekho.
+                          Browser menu তে "Install app" / "Add to Home screen" option খুঁজুন।
                         </p>
                       )}
                     </div>
