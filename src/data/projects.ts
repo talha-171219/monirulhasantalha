@@ -60,37 +60,19 @@ export const projects: Project[] = [
     premium: true
   },
 
-  // ===== NEW 15 PREMIUM PROJECTS (Serial Order) =====
+  // ===== MUSLIM CORNER (Right after Al Quran) =====
   {
-    id: "hajj-journey-guide",
-    title: "Hajj Journey Guide",
-    description: "Complete guide for Hajj pilgrimage with step-by-step instructions",
+    id: "muslim-corner",
+    title: "Muslim Corner",
+    description: "Complete Islamic app with prayer times, Quran, duas and more",
     thumbnail: alQuranThumb,
-    appUrl: "https://hajj-journey-guide-by-talha.lovable.app",
+    appUrl: "https://muslim-corner-by-talha.lovable.app",
     category: "Religion",
     featured: true,
     premium: true
   },
-  {
-    id: "mesbahul-alam-library",
-    title: "Mesbahul Alam Library",
-    description: "Digital library platform for educational resources and books",
-    thumbnail: onlineCourseThumb,
-    appUrl: "https://mesbahulalam-library01.lovable.app",
-    category: "Education",
-    featured: true,
-    premium: true
-  },
-  {
-    id: "telegram-id",
-    title: "Telegram ID",
-    description: "Utility tool to find and share Telegram user IDs",
-    thumbnail: chatAppThumb,
-    appUrl: "https://telegram-id-hazel.vercel.app/",
-    category: "Utility",
-    featured: true,
-    premium: true
-  },
+
+  // ===== NEW PREMIUM PROJECTS (Serial Order) =====
   {
     id: "flowrec",
     title: "FlowRec",
@@ -208,6 +190,16 @@ export const projects: Project[] = [
     thumbnail: focusTimerThumb,
     appUrl: "https://remix-of-safe-haven-timer.vercel.app/",
     category: "Productivity",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "mesbahul-alam-library",
+    title: "Mesbahul Alam Library",
+    description: "Digital library platform for educational resources and books",
+    thumbnail: onlineCourseThumb,
+    appUrl: "https://mesbahulalam-library01.lovable.app",
+    category: "Education",
     featured: true,
     premium: true
   },
@@ -569,6 +561,26 @@ export const projects: Project[] = [
     thumbnail: translatorThumb,
     appUrl: "https://talha-2008.github.io/Translator-app/",
     category: "Utility"
+  },
+
+  // ===== SIMPLE APPS (Moved from Premium) =====
+  {
+    id: "hajj-journey-guide",
+    title: "Hajj Journey Guide",
+    description: "Complete guide for Hajj pilgrimage with step-by-step instructions",
+    thumbnail: alQuranThumb,
+    appUrl: "https://hajj-journey-guide-by-talha.lovable.app",
+    category: "Religion",
+    featured: false
+  },
+  {
+    id: "telegram-id",
+    title: "Telegram ID",
+    description: "Utility tool to find and share Telegram user IDs",
+    thumbnail: chatAppThumb,
+    appUrl: "https://telegram-id-hazel.vercel.app/",
+    category: "Utility",
+    featured: false
   }
 ];
 
