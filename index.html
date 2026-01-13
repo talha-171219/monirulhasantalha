@@ -343,17 +343,17 @@
     </div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Hide loader with 2.5 second delay for full animation experience
+      // Hide loader with 4.5 second delay for full animation experience
       window.addEventListener('load', () => {
         setTimeout(() => {
           const loader = document.getElementById('app-loader');
           if (loader) {
-            loader.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            loader.style.transition = 'opacity 1s ease, transform 1s ease';
             loader.style.opacity = '0';
             loader.style.transform = 'scale(1.05)';
-            setTimeout(() => loader.remove(), 800);
+            setTimeout(() => loader.remove(), 1000);
           }
-        }, 2500);
+        }, 4500);
       });
     </script>
   </body>
