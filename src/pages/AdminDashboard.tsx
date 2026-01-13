@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Pencil, Trash2, LogOut, BookOpen, ArrowUp, ArrowDown, Upload } from "lucide-react";
+import { Plus, Pencil, Trash2, LogOut, BookOpen, ArrowUp, ArrowDown, Upload, Bot, Send, X, Loader2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/unsafeClient";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Project {
   id: string;
@@ -29,6 +29,12 @@ interface BlogPost {
   author: string;
   created_at: string;
   published: boolean;
+}
+
+interface AIChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+  action?: any;
 }
 
 const AdminDashboard = () => {
@@ -54,6 +60,15 @@ const AdminDashboard = () => {
     author: "Talha",
     published: true,
   });
+  
+  // AI Assistant states
+  const [isAIOpen, setIsAIOpen] = useState(false);
+  const [aiMessages, setAIMessages] = useState<AIChatMessage[]>([]);
+  const [aiInput, setAIInput] = useState("");
+  const [isAILoading, setIsAILoading] = useState(false);
+  const [pendingAction, setPendingAction] = useState<any>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -61,37 +76,31 @@ const AdminDashboard = () => {
     checkAdminAccess();
   }, [navigate]);
 
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [aiMessages]);
+
   const checkAdminAccess = async () => {
     try {
-      // Check if password was verified
-      const adminVerified = sessionStorage.getItem("admin_verified");
+      const { data: { session } } = await supabase.auth.getSession();
       
-      if (adminVerified === "true") {
-        setIsAuthenticated(true);
-        fetchProjects();
-        fetchBlogPosts();
-        return;
-      }
-
-      // Fallback: check database role
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
+      if (!session?.user) {
         navigate("/settings");
         return;
       }
 
+      // Server-side role verification only
       const { data, error } = await supabase
         .from("user_roles")
         .select("role")
-        .eq("user_id", user.id)
+        .eq("user_id", session.user.id)
         .eq("role", "admin")
         .maybeSingle();
 
       if (error || !data) {
         toast({
           title: "Access Denied",
-          description: "Please enter the admin password in Settings",
+          description: "Admin privileges required",
           variant: "destructive",
         });
         navigate("/settings");
@@ -163,7 +172,6 @@ const AdminDashboard = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Convert file to base64 for preview
     const reader = new FileReader();
     reader.onloadend = () => {
       setFormData({ ...formData, thumbnail: reader.result as string });
@@ -189,13 +197,18 @@ const AdminDashboard = () => {
   };
 
   const handleLogout = async () => {
-    sessionStorage.removeItem("admin_verified");
     await supabase.auth.signOut();
     navigate("/settings");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Calculate display_order for new projects
+    const getNextDisplayOrder = () => {
+      if (projects.length === 0) return 0;
+      return Math.max(...projects.map(p => p.display_order)) + 1;
+    };
 
     if (editingProject) {
       const { error } = await supabase
@@ -218,7 +231,10 @@ const AdminDashboard = () => {
         resetForm();
       }
     } else {
-      const { error } = await supabase.from("projects").insert([formData]);
+      const { error } = await supabase.from("projects").insert([{
+        ...formData,
+        display_order: getNextDisplayOrder()
+      }]);
 
       if (error) {
         toast({
@@ -370,6 +386,164 @@ const AdminDashboard = () => {
     setIsBlogDialogOpen(false);
   };
 
+  // AI Assistant Functions
+  const sendAIMessage = async () => {
+    if (!aiInput.trim() || isAILoading) return;
+
+    const userMessage = aiInput.trim();
+    setAIInput("");
+    setAIMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setIsAILoading(true);
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/admin-assistant`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'AI request failed');
+      }
+
+      const data = await response.json();
+      
+      setAIMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: data.response,
+        action: data.action
+      }]);
+
+      if (data.action) {
+        setPendingAction(data.action);
+      }
+    } catch (error) {
+      console.error('AI Error:', error);
+      setAIMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: `Error: ${error instanceof Error ? error.message : 'Something went wrong'}`
+      }]);
+    } finally {
+      setIsAILoading(false);
+    }
+  };
+
+  const executeAction = async () => {
+    if (!pendingAction) return;
+
+    setIsAILoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      if (pendingAction.action === 'add_project') {
+        let thumbnail = pendingAction.data.thumbnail;
+        
+        // Generate thumbnail if needed
+        if (thumbnail === 'generate' || !thumbnail) {
+          setAIMessages(prev => [...prev, { 
+            role: 'assistant', 
+            content: '🎨 Generating thumbnail...'
+          }]);
+          
+          const thumbResponse = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-thumbnail`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`,
+            },
+            body: JSON.stringify({ title: pendingAction.data.title }),
+          });
+
+          if (thumbResponse.ok) {
+            const thumbData = await thumbResponse.json();
+            thumbnail = thumbData.thumbnail;
+          } else {
+            thumbnail = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400';
+          }
+        }
+
+        // Calculate display order
+        let displayOrder = 0;
+        const position = pendingAction.data.position || 'bottom';
+        
+        if (position === 'top') {
+          displayOrder = 0;
+          // Shift all other projects down
+          for (const p of projects) {
+            await supabase.from("projects").update({ display_order: p.display_order + 1 }).eq("id", p.id);
+          }
+        } else if (position === 'bottom') {
+          displayOrder = projects.length > 0 ? Math.max(...projects.map(p => p.display_order)) + 1 : 0;
+        } else if (position.startsWith('after:')) {
+          const afterName = position.replace('after:', '').toLowerCase();
+          const targetIndex = projects.findIndex(p => p.title.toLowerCase().includes(afterName));
+          if (targetIndex >= 0) {
+            displayOrder = projects[targetIndex].display_order + 1;
+            // Shift projects after this one
+            for (let i = targetIndex + 1; i < projects.length; i++) {
+              await supabase.from("projects").update({ display_order: projects[i].display_order + 1 }).eq("id", projects[i].id);
+            }
+          } else {
+            displayOrder = projects.length;
+          }
+        }
+
+        const { error } = await supabase.from("projects").insert([{
+          title: pendingAction.data.title,
+          description: pendingAction.data.description,
+          category: pendingAction.data.category,
+          app_url: pendingAction.data.app_url || '#',
+          thumbnail: thumbnail,
+          featured: pendingAction.data.featured || false,
+          premium: pendingAction.data.premium || false,
+          display_order: displayOrder,
+        }]);
+
+        if (error) throw error;
+
+        toast({ title: "Success", description: "Project added by AI!" });
+        fetchProjects();
+        setAIMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: `✅ Project "${pendingAction.data.title}" added successfully!`
+        }]);
+      } else if (pendingAction.action === 'add_blog') {
+        const { error } = await supabase.from("blog_posts").insert([{
+          title: pendingAction.data.title,
+          content: pendingAction.data.content,
+          author: pendingAction.data.author || 'Talha',
+          published: true,
+        }]);
+
+        if (error) throw error;
+
+        toast({ title: "Success", description: "Blog post added by AI!" });
+        fetchBlogPosts();
+        setAIMessages(prev => [...prev, { 
+          role: 'assistant', 
+          content: `✅ Blog post "${pendingAction.data.title}" added successfully!`
+        }]);
+      }
+    } catch (error) {
+      console.error('Execute action error:', error);
+      setAIMessages(prev => [...prev, { 
+        role: 'assistant', 
+        content: `❌ Failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      }]);
+    } finally {
+      setIsAILoading(false);
+      setPendingAction(null);
+    }
+  };
+
   if (!isAuthenticated) return null;
 
   return (
@@ -382,10 +556,16 @@ const AdminDashboard = () => {
               <h1 className="text-3xl font-bold">Admin Dashboard</h1>
               <p className="text-muted-foreground">Manage your portfolio projects and blog</p>
             </div>
-            <Button onClick={handleLogout} variant="outline" size="sm">
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => setIsAIOpen(true)} variant="outline" size="sm" className="gap-2">
+                <Sparkles className="w-4 h-4" />
+                AI Assistant
+              </Button>
+              <Button onClick={handleLogout} variant="outline" size="sm">
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
 
           {/* Tabs for Projects and Blog */}
@@ -702,6 +882,78 @@ const AdminDashboard = () => {
           </Tabs>
         </div>
       </div>
+
+      {/* AI Assistant Panel */}
+      {isAIOpen && (
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <Card className="w-full max-w-2xl h-[80vh] flex flex-col">
+            <CardHeader className="flex-row items-center justify-between space-y-0 pb-4 border-b">
+              <div className="flex items-center gap-2">
+                <Bot className="w-6 h-6 text-primary" />
+                <CardTitle>AI Admin Assistant</CardTitle>
+              </div>
+              <Button variant="ghost" size="icon" onClick={() => setIsAIOpen(false)}>
+                <X className="w-5 h-5" />
+              </Button>
+            </CardHeader>
+            
+            <CardContent className="flex-1 overflow-y-auto p-4 space-y-4">
+              {aiMessages.length === 0 && (
+                <div className="text-center text-muted-foreground py-8">
+                  <Sparkles className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p className="font-medium">AI Assistant Ready!</p>
+                  <p className="text-sm mt-2">Try: "Add a new fitness app called Workout Pro" or "Write a blog about web development"</p>
+                </div>
+              )}
+              
+              {aiMessages.map((msg, i) => (
+                <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[80%] p-3 rounded-lg ${
+                    msg.role === 'user' 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'bg-muted'
+                  }`}>
+                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                    {msg.action && (
+                      <div className="mt-3 p-2 bg-background/50 rounded border">
+                        <p className="text-xs font-medium mb-2">Action: {msg.action.action}</p>
+                        <Button size="sm" onClick={executeAction} disabled={isAILoading}>
+                          {isAILoading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                          Execute Action
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+              
+              {isAILoading && (
+                <div className="flex justify-start">
+                  <div className="bg-muted p-3 rounded-lg">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  </div>
+                </div>
+              )}
+              <div ref={chatEndRef} />
+            </CardContent>
+            
+            <div className="p-4 border-t">
+              <div className="flex gap-2">
+                <Input
+                  value={aiInput}
+                  onChange={(e) => setAIInput(e.target.value)}
+                  placeholder="Ask AI to add projects or blog posts..."
+                  onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendAIMessage()}
+                  disabled={isAILoading}
+                />
+                <Button onClick={sendAIMessage} disabled={isAILoading || !aiInput.trim()}>
+                  {isAILoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                </Button>
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };

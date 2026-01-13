@@ -3,17 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { Settings as SettingsIcon, Shield, LogOut, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/unsafeClient";
+import { supabase } from "@/integrations/supabase/client";
 
 const Settings = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
-  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
-  const [adminPassword, setAdminPassword] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -24,14 +20,15 @@ const Settings = () => {
   const checkAdminStatus = async () => {
     setIsLoading(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
 
-      if (user) {
+      if (session?.user) {
+        // Server-side role check only
         const { data, error } = await supabase
           .from("user_roles")
           .select("role")
-          .eq("user_id", user.id)
+          .eq("user_id", session.user.id)
           .eq("role", "admin")
           .maybeSingle();
 
@@ -57,28 +54,14 @@ const Settings = () => {
   };
 
   const handleAccessAdmin = () => {
-    // Always show password dialog
-    setShowPasswordDialog(true);
-  };
-
-  const handlePasswordSubmit = () => {
-    if (adminPassword === "171219") {
-      // Store password verification in session
-      sessionStorage.setItem("admin_verified", "true");
-      toast({
-        title: "Success",
-        description: "Admin access granted! Redirecting...",
-      });
-      setShowPasswordDialog(false);
-      setAdminPassword("");
-      setTimeout(() => navigate("/admin"), 500);
+    if (isAdmin) {
+      navigate("/admin");
     } else {
       toast({
         title: "Access Denied",
-        description: "Incorrect password. Please try again.",
+        description: "You don't have admin privileges",
         variant: "destructive",
       });
-      setAdminPassword("");
     }
   };
 
@@ -132,8 +115,8 @@ const Settings = () => {
             </CardContent>
           </Card>
 
-          {/* Admin Panel Access */}
-          {user && (
+          {/* Admin Panel Access - Only show to admins */}
+          {user && isAdmin && (
             <Card className="glass-card fade-in">
               <CardHeader>
                 <div className="flex items-center gap-2">
@@ -141,7 +124,7 @@ const Settings = () => {
                   <CardTitle>Admin Panel</CardTitle>
                 </div>
                 <CardDescription>
-                  Enter password to access project management dashboard
+                  Access project management dashboard
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -165,7 +148,7 @@ const Settings = () => {
             <CardContent className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Version</span>
-                <span className="font-medium">1.0.0</span>
+                <span className="font-medium">2.0.0</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Developer</span>
@@ -175,48 +158,12 @@ const Settings = () => {
                 <span className="text-muted-foreground">Platform</span>
                 <span className="font-medium">Web App</span>
               </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Security</span>
+                <span className="font-medium text-green-500">Enhanced</span>
+              </div>
             </CardContent>
           </Card>
-
-          {/* Admin Password Dialog */}
-          <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Admin Access Required</DialogTitle>
-                <DialogDescription>
-                  Enter the admin password to gain access to the admin panel.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4">
-                <Input
-                  type="password"
-                  placeholder="Enter admin password"
-                  value={adminPassword}
-                  onChange={(e) => setAdminPassword(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handlePasswordSubmit();
-                    }
-                  }}
-                />
-                <div className="flex gap-2">
-                  <Button onClick={handlePasswordSubmit} className="flex-1">
-                    Submit
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      setShowPasswordDialog(false);
-                      setAdminPassword("");
-                    }}
-                    className="flex-1"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
     </div>

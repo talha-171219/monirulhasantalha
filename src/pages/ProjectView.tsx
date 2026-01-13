@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ExternalLink, RefreshCw, Download, Loader2 } from "lucide-react";
 import { projects as staticProjects } from "@/data/projects";
-import { supabase } from "@/integrations/supabase/unsafeClient";
+import { supabase } from "@/integrations/supabase/client";
 import type { Project } from "@/data/projects";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
