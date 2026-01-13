@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Sparkles, Zap, Code2, Rocket } from "lucide-react";
+import { ArrowRight, Sparkles, Zap, Code2, Rocket, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, type Variants, type Easing } from "framer-motion";
 import { projects as staticProjects } from "@/data/projects";
@@ -116,20 +116,27 @@ const Home = () => {
           {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-wrap gap-4 justify-center pt-4"
+            className="flex flex-wrap gap-3 justify-center pt-4"
           >
             <Link
               to="/projects"
-              className="glow-button inline-flex items-center gap-2 px-8 py-4 text-white rounded-full font-semibold text-lg"
+              className="glow-button inline-flex items-center gap-2 px-6 py-3.5 text-white rounded-full font-semibold"
             >
-              <span>View All Projects</span>
-              <ArrowRight className="w-5 h-5" />
+              <span>View Projects</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/about"
-              className="glow-button-outline inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg text-foreground hover:text-primary transition-colors"
+              className="glow-button-outline inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-foreground hover:text-primary transition-colors"
             >
               <span>About Me</span>
+            </Link>
+            <Link
+              to="/blog"
+              className="glow-button-outline inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-foreground hover:text-accent transition-colors"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Blog</span>
             </Link>
           </motion.div>
 
