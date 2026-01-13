@@ -42,7 +42,137 @@
 </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Modern Loading Screen -->
+      <div id="app-loader" style="
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #08131a 0%, #0d1f29 50%, #08131a 100%);
+        z-index: 9999;
+      ">
+        <!-- Animated Logo Container -->
+        <div style="
+          position: relative;
+          width: 120px;
+          height: 120px;
+          margin-bottom: 32px;
+        ">
+          <!-- Outer rotating ring -->
+          <div style="
+            position: absolute;
+            inset: 0;
+            border: 3px solid transparent;
+            border-top-color: #1db954;
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
+          "></div>
+          
+          <!-- Middle rotating ring (opposite direction) -->
+          <div style="
+            position: absolute;
+            inset: 12px;
+            border: 3px solid transparent;
+            border-right-color: #1db954;
+            border-radius: 50%;
+            animation: spin-reverse 1s linear infinite;
+          "></div>
+          
+          <!-- Inner pulsing circle -->
+          <div style="
+            position: absolute;
+            inset: 28px;
+            background: linear-gradient(135deg, #1db954 0%, #0d9b43 100%);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+            box-shadow: 0 0 40px rgba(29, 185, 84, 0.4);
+          "></div>
+          
+          <!-- Center icon/letter -->
+          <div style="
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+          ">T</div>
+        </div>
+        
+        <!-- Loading text with shimmer -->
+        <div style="
+          font-family: 'Inter', sans-serif;
+          font-size: 18px;
+          font-weight: 600;
+          color: #ffffff;
+          margin-bottom: 8px;
+          letter-spacing: 0.5px;
+        ">Monirul Hasan Talha</div>
+        
+        <!-- Subtitle -->
+        <div style="
+          font-family: 'Inter', sans-serif;
+          font-size: 13px;
+          color: rgba(255, 255, 255, 0.6);
+          margin-bottom: 24px;
+        ">Loading Portfolio...</div>
+        
+        <!-- Modern progress bar -->
+        <div style="
+          width: 200px;
+          height: 4px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          overflow: hidden;
+        ">
+          <div style="
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #1db954, transparent);
+            animation: shimmer 1.5s ease-in-out infinite;
+          "></div>
+        </div>
+        
+        <style>
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+          @keyframes spin-reverse {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+          }
+          @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.9); opacity: 0.8; }
+          }
+          @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+          }
+        </style>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Hide loader when app is ready
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const loader = document.getElementById('app-loader');
+          if (loader) {
+            loader.style.transition = 'opacity 0.5s ease';
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 500);
+          }
+        }, 300);
+      });
+    </script>
   </body>
 </html>

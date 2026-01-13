@@ -21,23 +21,26 @@ export const PWAInstallPrompt = () => {
       return;
     }
 
-    // Check if user previously dismissed
+    // Check if user previously dismissed (only check for 24 hours instead of 7 days)
     const dismissedTime = localStorage.getItem("pwa_prompt_dismissed");
     if (dismissedTime) {
       const dismissedDate = new Date(parseInt(dismissedTime));
       const now = new Date();
-      // Show again after 7 days
-      if (now.getTime() - dismissedDate.getTime() < 7 * 24 * 60 * 60 * 1000) {
+      // Show again after 24 hours
+      if (now.getTime() - dismissedDate.getTime() < 24 * 60 * 60 * 1000) {
         setDismissed(true);
         return;
+      } else {
+        // Clear old dismissed state
+        localStorage.removeItem("pwa_prompt_dismissed");
       }
     }
 
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
-      // Show prompt after a short delay for better UX
-      setTimeout(() => setShowPrompt(true), 2000);
+      // Show prompt immediately!
+      setShowPrompt(true);
     };
 
     const handleAppInstalled = () => {
