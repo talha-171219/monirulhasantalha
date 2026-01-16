@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useSplashAudio } from "@/hooks/useSplashAudio";
+import { Volume2, VolumeX } from "lucide-react";
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -10,29 +11,43 @@ interface SplashScreenProps {
 export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [progress, setProgress] = useState(0);
-  const audioInitialized = useRef(false);
+  const [audioStarted, setAudioStarted] = useState(false);
+  const [showTapHint, setShowTapHint] = useState(true);
+  const audioAttempted = useRef(false);
   
   // Initialize splash audio with matching duration
-  const { playSound, stopSound } = useSplashAudio({
-    duration: duration - 500, // Slightly shorter to fade before transition
-    volume: 0.2, // Low, premium-feeling volume
-    fadeInDuration: 600, // Smooth fade in
+  const { playSound, stopSound, hasPlayedThisSession } = useSplashAudio({
+    duration: duration - 500,
+    volume: 0.35,
+    fadeInDuration: 300,
     enableHaptic: true,
   });
 
-  useEffect(() => {
-    // Play audio on first render (with user gesture detection)
-    if (!audioInitialized.current) {
-      audioInitialized.current = true;
-      
-      // Small delay to ensure component is mounted
-      const audioTimer = setTimeout(() => {
-        playSound();
-      }, 100);
-      
-      return () => clearTimeout(audioTimer);
-    }
+  // Handle user interaction to start audio
+  const handleInteraction = useCallback(() => {
+    if (audioAttempted.current) return;
+    audioAttempted.current = true;
+    
+    const started = playSound();
+    setAudioStarted(started);
+    setShowTapHint(false);
   }, [playSound]);
+
+  // Auto-hide tap hint after a short delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTapHint(false);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Check if already played
+  useEffect(() => {
+    if (hasPlayedThisSession()) {
+      setShowTapHint(false);
+      setAudioStarted(true);
+    }
+  }, [hasPlayedThisSession]);
 
   useEffect(() => {
     // Progress animation
@@ -48,15 +63,15 @@ export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps)
 
     // Hide splash after duration
     const timer = setTimeout(() => {
-      stopSound(); // Stop audio before transition
+      stopSound();
       setIsVisible(false);
-      setTimeout(onComplete, 1000); // Wait for exit animation
+      setTimeout(onComplete, 1000);
     }, duration);
 
     return () => {
       clearTimeout(timer);
       clearInterval(progressInterval);
-      stopSound(); // Cleanup audio on unmount
+      stopSound();
     };
   }, [duration, onComplete, stopSound]);
 
@@ -69,7 +84,9 @@ export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps)
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 1, ease: "easeInOut" }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-background"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-background cursor-pointer"
+          onClick={handleInteraction}
+          onTouchStart={handleInteraction}
         >
           {/* Animated Background with gradient orbs */}
           <div className="absolute inset-0">
@@ -351,6 +368,60 @@ export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps)
             animate={{ scaleX: 1, opacity: 1 }}
             transition={{ delay: 1.5, duration: 0.8 }}
           />
+
+          {/* Tap to enable sound hint */}
+          <AnimatePresence>
+            {showTapHint && !audioStarted && (
+              <motion.div
+                className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 backdrop-blur-sm border border-primary/20"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ delay: 0.8, duration: 0.4 }}
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <Volume2 className="w-4 h-4 text-primary" />
+                </motion.div>
+                <span className="text-xs text-muted-foreground font-mono">
+                  Tap for sound
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Audio status indicator */}
+          {audioStarted && (
+            <motion.div
+              className="absolute bottom-20 left-1/2 -translate-x-1/2"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <motion.div
+                className="flex items-center gap-1"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                {[...Array(4)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="w-1 bg-primary rounded-full"
+                    animate={{
+                      height: [4, 12 + i * 3, 4],
+                    }}
+                    transition={{
+                      duration: 0.6,
+                      repeat: Infinity,
+                      delay: i * 0.1,
+                    }}
+                  />
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
         </motion.div>
       )}
     </AnimatePresence>

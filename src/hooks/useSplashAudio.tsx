@@ -9,26 +9,18 @@ interface UseSplashAudioOptions {
 
 export const useSplashAudio = ({
   duration = 4000,
-  volume = 0.25,
-  fadeInDuration = 800,
+  volume = 0.3,
+  fadeInDuration = 400,
   enableHaptic = true,
 }: UseSplashAudioOptions = {}) => {
   const audioContextRef = useRef<AudioContext | null>(null);
   const gainNodeRef = useRef<GainNode | null>(null);
-  const oscillatorsRef = useRef<OscillatorNode[]>([]);
   const isPlayingRef = useRef(false);
   const hasPlayedRef = useRef(false);
 
-  // Check if audio should be played (respects silent mode indicators)
-  const canPlayAudio = useCallback((): boolean => {
-    // Check if already played in this session
-    if (sessionStorage.getItem("splash_audio_played") === "1") {
-      return false;
-    }
-    
-    // Check if the user has interacted (browser autoplay policy)
-    // Most browsers allow audio after user gesture
-    return true;
+  // Check if already played in this session
+  const hasPlayedThisSession = useCallback((): boolean => {
+    return sessionStorage.getItem("splash_audio_played") === "1";
   }, []);
 
   // Trigger haptic feedback
@@ -46,13 +38,19 @@ export const useSplashAudio = ({
 
   // Create futuristic AI initialization sound using Web Audio API
   const createFuturisticSound = useCallback(() => {
-    if (hasPlayedRef.current || isPlayingRef.current) return;
+    if (hasPlayedRef.current || isPlayingRef.current) return false;
     
     try {
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioContextClass) return;
+      if (!AudioContextClass) return false;
 
       const audioContext = new AudioContextClass();
+      
+      // Resume audio context (required for user gesture)
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      
       audioContextRef.current = audioContext;
 
       // Master gain for volume control and fade
@@ -68,122 +66,119 @@ export const useSplashAudio = ({
       );
 
       const currentTime = audioContext.currentTime;
-      const soundDuration = duration / 1000;
+      const soundDuration = Math.min(duration / 1000, 4);
 
       // 1. Deep bass drone (foundation)
       const bassOsc = audioContext.createOscillator();
       const bassGain = audioContext.createGain();
       bassOsc.type = "sine";
       bassOsc.frequency.setValueAtTime(55, currentTime);
-      bassOsc.frequency.linearRampToValueAtTime(80, currentTime + soundDuration);
-      bassGain.gain.setValueAtTime(0.15, currentTime);
-      bassGain.gain.linearRampToValueAtTime(0.05, currentTime + soundDuration);
+      bassOsc.frequency.linearRampToValueAtTime(85, currentTime + soundDuration);
+      bassGain.gain.setValueAtTime(0.2, currentTime);
+      bassGain.gain.linearRampToValueAtTime(0.08, currentTime + soundDuration);
       bassOsc.connect(bassGain);
       bassGain.connect(masterGain);
       bassOsc.start(currentTime);
       bassOsc.stop(currentTime + soundDuration);
-      oscillatorsRef.current.push(bassOsc);
 
       // 2. Rising digital sweep
       const sweepOsc = audioContext.createOscillator();
       const sweepGain = audioContext.createGain();
       const sweepFilter = audioContext.createBiquadFilter();
       sweepOsc.type = "sawtooth";
-      sweepOsc.frequency.setValueAtTime(200, currentTime);
-      sweepOsc.frequency.exponentialRampToValueAtTime(1200, currentTime + soundDuration * 0.6);
-      sweepOsc.frequency.linearRampToValueAtTime(800, currentTime + soundDuration);
+      sweepOsc.frequency.setValueAtTime(150, currentTime);
+      sweepOsc.frequency.exponentialRampToValueAtTime(800, currentTime + soundDuration * 0.5);
+      sweepOsc.frequency.linearRampToValueAtTime(600, currentTime + soundDuration);
       sweepFilter.type = "lowpass";
-      sweepFilter.frequency.setValueAtTime(400, currentTime);
-      sweepFilter.frequency.linearRampToValueAtTime(2000, currentTime + soundDuration * 0.5);
-      sweepFilter.frequency.linearRampToValueAtTime(800, currentTime + soundDuration);
-      sweepFilter.Q.setValueAtTime(2, currentTime);
+      sweepFilter.frequency.setValueAtTime(300, currentTime);
+      sweepFilter.frequency.linearRampToValueAtTime(1500, currentTime + soundDuration * 0.4);
+      sweepFilter.frequency.linearRampToValueAtTime(600, currentTime + soundDuration);
+      sweepFilter.Q.setValueAtTime(3, currentTime);
       sweepGain.gain.setValueAtTime(0, currentTime);
-      sweepGain.gain.linearRampToValueAtTime(0.08, currentTime + 0.5);
-      sweepGain.gain.linearRampToValueAtTime(0.02, currentTime + soundDuration);
+      sweepGain.gain.linearRampToValueAtTime(0.12, currentTime + 0.3);
+      sweepGain.gain.linearRampToValueAtTime(0.04, currentTime + soundDuration);
       sweepOsc.connect(sweepFilter);
       sweepFilter.connect(sweepGain);
       sweepGain.connect(masterGain);
-      sweepOsc.start(currentTime + 0.2);
+      sweepOsc.start(currentTime + 0.1);
       sweepOsc.stop(currentTime + soundDuration);
-      oscillatorsRef.current.push(sweepOsc);
 
       // 3. High crystalline shimmer
       const shimmerOsc = audioContext.createOscillator();
       const shimmerGain = audioContext.createGain();
       shimmerOsc.type = "sine";
-      shimmerOsc.frequency.setValueAtTime(2400, currentTime);
-      shimmerOsc.frequency.linearRampToValueAtTime(3200, currentTime + soundDuration * 0.3);
-      shimmerOsc.frequency.linearRampToValueAtTime(2800, currentTime + soundDuration);
+      shimmerOsc.frequency.setValueAtTime(1800, currentTime);
+      shimmerOsc.frequency.linearRampToValueAtTime(2400, currentTime + soundDuration * 0.3);
+      shimmerOsc.frequency.linearRampToValueAtTime(2000, currentTime + soundDuration);
       shimmerGain.gain.setValueAtTime(0, currentTime);
-      shimmerGain.gain.linearRampToValueAtTime(0.04, currentTime + 1);
-      shimmerGain.gain.linearRampToValueAtTime(0.015, currentTime + soundDuration);
+      shimmerGain.gain.linearRampToValueAtTime(0.06, currentTime + 0.5);
+      shimmerGain.gain.linearRampToValueAtTime(0.02, currentTime + soundDuration);
       shimmerOsc.connect(shimmerGain);
       shimmerGain.connect(masterGain);
-      shimmerOsc.start(currentTime + 0.5);
+      shimmerOsc.start(currentTime + 0.3);
       shimmerOsc.stop(currentTime + soundDuration);
-      oscillatorsRef.current.push(shimmerOsc);
 
-      // 4. Digital blips (startup beeps)
-      const blipTimes = [0.3, 0.8, 1.4, 2.2, 3.0];
+      // 4. Digital blips (startup beeps) - more prominent
+      const blipTimes = [0.2, 0.5, 1.0, 1.6, 2.3];
       blipTimes.forEach((time, index) => {
         if (time < soundDuration) {
           const blipOsc = audioContext.createOscillator();
           const blipGain = audioContext.createGain();
           blipOsc.type = "sine";
-          const baseFreq = 800 + index * 200;
+          const baseFreq = 600 + index * 180;
           blipOsc.frequency.setValueAtTime(baseFreq, currentTime + time);
-          blipOsc.frequency.exponentialRampToValueAtTime(baseFreq * 1.5, currentTime + time + 0.1);
+          blipOsc.frequency.exponentialRampToValueAtTime(baseFreq * 1.4, currentTime + time + 0.08);
           blipGain.gain.setValueAtTime(0, currentTime + time);
-          blipGain.gain.linearRampToValueAtTime(0.06, currentTime + time + 0.02);
-          blipGain.gain.exponentialRampToValueAtTime(0.001, currentTime + time + 0.15);
+          blipGain.gain.linearRampToValueAtTime(0.1, currentTime + time + 0.015);
+          blipGain.gain.exponentialRampToValueAtTime(0.001, currentTime + time + 0.12);
           blipOsc.connect(blipGain);
           blipGain.connect(masterGain);
           blipOsc.start(currentTime + time);
-          blipOsc.stop(currentTime + time + 0.2);
-          oscillatorsRef.current.push(blipOsc);
+          blipOsc.stop(currentTime + time + 0.15);
         }
       });
 
-      // 5. Harmonic chord at peak (around 60-80%)
-      const chordTime = soundDuration * 0.6;
-      const chordFreqs = [523.25, 659.25, 783.99]; // C5, E5, G5 major chord
-      chordFreqs.forEach((freq, i) => {
+      // 5. Success chord at 70% (more audible)
+      const chordTime = soundDuration * 0.65;
+      const chordFreqs = [392, 493.88, 587.33]; // G4, B4, D5 - G major chord
+      chordFreqs.forEach((freq) => {
         const chordOsc = audioContext.createOscillator();
         const chordGain = audioContext.createGain();
         chordOsc.type = "sine";
         chordOsc.frequency.setValueAtTime(freq, currentTime + chordTime);
         chordGain.gain.setValueAtTime(0, currentTime + chordTime);
-        chordGain.gain.linearRampToValueAtTime(0.03, currentTime + chordTime + 0.2);
-        chordGain.gain.linearRampToValueAtTime(0.01, currentTime + soundDuration);
+        chordGain.gain.linearRampToValueAtTime(0.05, currentTime + chordTime + 0.15);
+        chordGain.gain.linearRampToValueAtTime(0.015, currentTime + soundDuration);
         chordOsc.connect(chordGain);
         chordGain.connect(masterGain);
         chordOsc.start(currentTime + chordTime);
         chordOsc.stop(currentTime + soundDuration);
-        oscillatorsRef.current.push(chordOsc);
       });
 
-      // 6. Subtle white noise layer (digital ambiance)
-      const noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * soundDuration, audioContext.sampleRate);
+      // 6. Subtle filtered noise layer
+      const noiseLength = audioContext.sampleRate * soundDuration;
+      const noiseBuffer = audioContext.createBuffer(1, noiseLength, audioContext.sampleRate);
       const noiseData = noiseBuffer.getChannelData(0);
       for (let i = 0; i < noiseBuffer.length; i++) {
-        noiseData[i] = (Math.random() * 2 - 1) * 0.02;
+        noiseData[i] = (Math.random() * 2 - 1) * 0.015;
       }
       const noiseSource = audioContext.createBufferSource();
       const noiseGain = audioContext.createGain();
       const noiseFilter = audioContext.createBiquadFilter();
       noiseSource.buffer = noiseBuffer;
       noiseFilter.type = "bandpass";
-      noiseFilter.frequency.setValueAtTime(3000, currentTime);
-      noiseFilter.Q.setValueAtTime(0.5, currentTime);
+      noiseFilter.frequency.setValueAtTime(2500, currentTime);
+      noiseFilter.Q.setValueAtTime(0.8, currentTime);
       noiseGain.gain.setValueAtTime(0, currentTime);
-      noiseGain.gain.linearRampToValueAtTime(0.08, currentTime + 0.5);
-      noiseGain.gain.linearRampToValueAtTime(0.02, currentTime + soundDuration);
+      noiseGain.gain.linearRampToValueAtTime(0.1, currentTime + 0.3);
+      noiseGain.gain.linearRampToValueAtTime(0.03, currentTime + soundDuration);
       noiseSource.connect(noiseFilter);
       noiseFilter.connect(noiseGain);
       noiseGain.connect(masterGain);
       noiseSource.start(currentTime);
 
       // Fade out at the end
+      masterGain.gain.setValueAtTime(volume, currentTime + soundDuration - 0.3);
       masterGain.gain.linearRampToValueAtTime(0, currentTime + soundDuration);
 
       isPlayingRef.current = true;
@@ -191,25 +186,31 @@ export const useSplashAudio = ({
       sessionStorage.setItem("splash_audio_played", "1");
 
       // Trigger initial haptic
-      triggerHaptic([10, 30, 5, 50, 8]);
+      triggerHaptic([12, 40, 8, 60, 10]);
 
       // Trigger subtle haptic pulses during the sound
-      const hapticTimings = [300, 800, 1400, 2200];
+      const hapticTimings = [200, 500, 1000, 1600];
       hapticTimings.forEach((time) => {
         if (time < duration) {
           setTimeout(() => {
-            triggerHaptic([8]);
+            if (isPlayingRef.current) {
+              triggerHaptic([10]);
+            }
           }, time);
         }
       });
 
-      // Cleanup after sound ends
+      // Auto cleanup after sound ends
       setTimeout(() => {
         stopSound();
-      }, duration + 100);
+      }, duration + 200);
+
+      console.log("🔊 Splash audio playing");
+      return true;
 
     } catch (error) {
-      console.warn("Audio playback not supported:", error);
+      console.warn("Audio playback error:", error);
+      return false;
     }
   }, [duration, volume, fadeInDuration, triggerHaptic]);
 
@@ -218,31 +219,24 @@ export const useSplashAudio = ({
     if (gainNodeRef.current && audioContextRef.current) {
       try {
         const currentTime = audioContextRef.current.currentTime;
-        gainNodeRef.current.gain.linearRampToValueAtTime(0, currentTime + 0.1);
+        gainNodeRef.current.gain.linearRampToValueAtTime(0, currentTime + 0.15);
       } catch (e) {
         // Ignore errors during cleanup
       }
     }
 
-    // Stop all oscillators
-    oscillatorsRef.current.forEach((osc) => {
-      try {
-        osc.stop();
-        osc.disconnect();
-      } catch (e) {
-        // Already stopped
+    // Close audio context after fade
+    setTimeout(() => {
+      if (audioContextRef.current && audioContextRef.current.state !== "closed") {
+        try {
+          audioContextRef.current.close();
+        } catch (e) {
+          // Ignore
+        }
       }
-    });
-    oscillatorsRef.current = [];
-
-    // Close audio context
-    if (audioContextRef.current && audioContextRef.current.state !== "closed") {
-      try {
-        audioContextRef.current.close();
-      } catch (e) {
-        // Ignore
-      }
-    }
+      audioContextRef.current = null;
+      gainNodeRef.current = null;
+    }, 200);
 
     isPlayingRef.current = false;
 
@@ -256,11 +250,14 @@ export const useSplashAudio = ({
     }
   }, []);
 
-  // Play sound
-  const playSound = useCallback(() => {
-    if (!canPlayAudio()) return;
-    createFuturisticSound();
-  }, [canPlayAudio, createFuturisticSound]);
+  // Play sound - returns true if started, false if skipped
+  const playSound = useCallback((): boolean => {
+    if (hasPlayedThisSession()) {
+      console.log("🔇 Splash audio already played this session");
+      return false;
+    }
+    return createFuturisticSound();
+  }, [hasPlayedThisSession, createFuturisticSound]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -273,5 +270,6 @@ export const useSplashAudio = ({
     playSound,
     stopSound,
     isPlaying: isPlayingRef.current,
+    hasPlayedThisSession,
   };
 };
