@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useSplashAudio } from "@/hooks/useSplashAudio";
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -9,6 +10,29 @@ interface SplashScreenProps {
 export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [progress, setProgress] = useState(0);
+  const audioInitialized = useRef(false);
+  
+  // Initialize splash audio with matching duration
+  const { playSound, stopSound } = useSplashAudio({
+    duration: duration - 500, // Slightly shorter to fade before transition
+    volume: 0.2, // Low, premium-feeling volume
+    fadeInDuration: 600, // Smooth fade in
+    enableHaptic: true,
+  });
+
+  useEffect(() => {
+    // Play audio on first render (with user gesture detection)
+    if (!audioInitialized.current) {
+      audioInitialized.current = true;
+      
+      // Small delay to ensure component is mounted
+      const audioTimer = setTimeout(() => {
+        playSound();
+      }, 100);
+      
+      return () => clearTimeout(audioTimer);
+    }
+  }, [playSound]);
 
   useEffect(() => {
     // Progress animation
@@ -24,6 +48,7 @@ export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps)
 
     // Hide splash after duration
     const timer = setTimeout(() => {
+      stopSound(); // Stop audio before transition
       setIsVisible(false);
       setTimeout(onComplete, 1000); // Wait for exit animation
     }, duration);
@@ -31,8 +56,9 @@ export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps)
     return () => {
       clearTimeout(timer);
       clearInterval(progressInterval);
+      stopSound(); // Cleanup audio on unmount
     };
-  }, [duration, onComplete]);
+  }, [duration, onComplete, stopSound]);
 
   const titleText = "Monirul Hasan Talha";
 
