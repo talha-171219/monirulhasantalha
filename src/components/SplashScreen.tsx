@@ -14,11 +14,10 @@ export const SplashScreen = ({ onComplete, duration = 4500, audioEnabled = false
   const [audioPlaying, setAudioPlaying] = useState(false);
   const audioStarted = useRef(false);
   
-  // Initialize splash audio with matching duration
+  // Initialize splash audio
   const { playSound, stopSound } = useSplashAudio({
-    duration: duration - 500,
-    volume: 0.35,
-    fadeInDuration: 300,
+    volume: 0.5,
+    fadeInDuration: 400,
     enableHaptic: true,
   });
 
