@@ -1,53 +1,39 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSplashAudio } from "@/hooks/useSplashAudio";
-import { Volume2, VolumeX } from "lucide-react";
 
 interface SplashScreenProps {
   onComplete: () => void;
   duration?: number;
+  audioEnabled?: boolean;
 }
 
-export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps) => {
+export const SplashScreen = ({ onComplete, duration = 4500, audioEnabled = false }: SplashScreenProps) => {
   const [isVisible, setIsVisible] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [audioStarted, setAudioStarted] = useState(false);
-  const [showTapHint, setShowTapHint] = useState(true);
-  const audioAttempted = useRef(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const audioStarted = useRef(false);
   
   // Initialize splash audio with matching duration
-  const { playSound, stopSound, hasPlayedThisSession } = useSplashAudio({
+  const { playSound, stopSound } = useSplashAudio({
     duration: duration - 500,
     volume: 0.35,
     fadeInDuration: 300,
     enableHaptic: true,
   });
 
-  // Handle user interaction to start audio
-  const handleInteraction = useCallback(() => {
-    if (audioAttempted.current) return;
-    audioAttempted.current = true;
-    
-    const started = playSound();
-    setAudioStarted(started);
-    setShowTapHint(false);
-  }, [playSound]);
-
-  // Auto-hide tap hint after a short delay
+  // Auto-play audio if enabled (user already gave permission)
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowTapHint(false);
-    }, 2500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Check if already played
-  useEffect(() => {
-    if (hasPlayedThisSession()) {
-      setShowTapHint(false);
-      setAudioStarted(true);
+    if (audioEnabled && !audioStarted.current) {
+      audioStarted.current = true;
+      // Small delay to ensure component is mounted
+      const timer = setTimeout(() => {
+        const started = playSound();
+        setAudioPlaying(started);
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, [hasPlayedThisSession]);
+  }, [audioEnabled, playSound]);
 
   useEffect(() => {
     // Progress animation
@@ -84,9 +70,7 @@ export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps)
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.05 }}
           transition={{ duration: 1, ease: "easeInOut" }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-background cursor-pointer"
-          onClick={handleInteraction}
-          onTouchStart={handleInteraction}
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-background"
         >
           {/* Animated Background with gradient orbs */}
           <div className="absolute inset-0">
@@ -369,31 +353,8 @@ export const SplashScreen = ({ onComplete, duration = 4500 }: SplashScreenProps)
             transition={{ delay: 1.5, duration: 0.8 }}
           />
 
-          {/* Tap to enable sound hint */}
-          <AnimatePresence>
-            {showTapHint && !audioStarted && (
-              <motion.div
-                className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 backdrop-blur-sm border border-primary/20"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ delay: 0.8, duration: 0.4 }}
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <Volume2 className="w-4 h-4 text-primary" />
-                </motion.div>
-                <span className="text-xs text-muted-foreground font-mono">
-                  Tap for sound
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
           {/* Audio status indicator */}
-          {audioStarted && (
+          {audioPlaying && (
             <motion.div
               className="absolute bottom-20 left-1/2 -translate-x-1/2"
               initial={{ opacity: 0, scale: 0.8 }}

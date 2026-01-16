@@ -4,9 +4,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { Layout } from "./components/Layout";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { SplashScreen } from "./components/SplashScreen";
+import { AudioPermissionScreen } from "./components/AudioPermissionScreen";
 import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import AllProjects from "./pages/AllProjects";
@@ -23,22 +25,61 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Audio permission storage key
+const AUDIO_PERMISSION_KEY = "audio_permission_granted";
+
 const App = () => {
-  const [showSplash, setShowSplash] = useState(true);
-  const [hasSeenSplash, setHasSeenSplash] = useState(false);
+  const [showAudioPermission, setShowAudioPermission] = useState(false);
+  const [showSplash, setShowSplash] = useState(false);
+  const [audioEnabled, setAudioEnabled] = useState(false);
+  const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
     // Check if user has already seen splash in this session
-    const seen = sessionStorage.getItem("splash_seen");
-    if (seen === "1") {
-      setShowSplash(false);
-      setHasSeenSplash(true);
+    const splashSeen = sessionStorage.getItem("splash_seen");
+    
+    if (splashSeen === "1") {
+      // Already seen splash this session, go straight to app
+      setAppReady(true);
+      return;
+    }
+
+    // Check if audio permission was previously granted (persisted in localStorage)
+    const audioPermission = localStorage.getItem(AUDIO_PERMISSION_KEY);
+    
+    if (audioPermission === "granted") {
+      // Permission already granted, skip to splash with audio
+      setAudioEnabled(true);
+      setShowSplash(true);
+    } else if (audioPermission === "denied") {
+      // User previously skipped, go to splash without audio
+      setAudioEnabled(false);
+      setShowSplash(true);
+    } else {
+      // First time - show audio permission screen
+      setShowAudioPermission(true);
     }
   }, []);
 
+  const handleAudioAllow = () => {
+    // Save permission permanently
+    localStorage.setItem(AUDIO_PERMISSION_KEY, "granted");
+    setAudioEnabled(true);
+    setShowAudioPermission(false);
+    setShowSplash(true);
+  };
+
+  const handleAudioSkip = () => {
+    // Save preference permanently
+    localStorage.setItem(AUDIO_PERMISSION_KEY, "denied");
+    setAudioEnabled(false);
+    setShowAudioPermission(false);
+    setShowSplash(true);
+  };
+
   const handleSplashComplete = () => {
     setShowSplash(false);
-    setHasSeenSplash(true);
+    setAppReady(true);
     sessionStorage.setItem("splash_seen", "1");
   };
 
@@ -48,10 +89,26 @@ const App = () => {
         <Toaster />
         <Sonner />
         
-        {/* Splash Screen - only shows once per session */}
-        {showSplash && !hasSeenSplash && (
-          <SplashScreen onComplete={handleSplashComplete} duration={4500} />
-        )}
+        <AnimatePresence mode="wait">
+          {/* Audio Permission Screen - shows first time only */}
+          {showAudioPermission && (
+            <AudioPermissionScreen
+              key="audio-permission"
+              onAllow={handleAudioAllow}
+              onSkip={handleAudioSkip}
+            />
+          )}
+
+          {/* Splash Screen - shows after permission or on subsequent visits */}
+          {showSplash && (
+            <SplashScreen
+              key="splash"
+              onComplete={handleSplashComplete}
+              duration={4500}
+              audioEnabled={audioEnabled}
+            />
+          )}
+        </AnimatePresence>
         
         <BrowserRouter>
           <PWAInstallPrompt />
