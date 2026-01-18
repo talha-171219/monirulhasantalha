@@ -61,6 +61,7 @@
         justify-content: center;
         background: linear-gradient(135deg, #08131a 0%, #0d1f29 50%, #08131a 100%);
         z-index: 9999;
+        pointer-events: none;
       ">
         <!-- Animated Logo Container -->
         <div style="
@@ -170,17 +171,21 @@
     </div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Hide loader when app is ready
-      window.addEventListener('load', () => {
-        setTimeout(() => {
-          const loader = document.getElementById('app-loader');
-          if (loader) {
-            loader.style.transition = 'opacity 0.5s ease';
-            loader.style.opacity = '0';
-            setTimeout(() => loader.remove(), 500);
-          }
-        }, 300);
-      });
+      // Hide loader when app is ready (robust: works even if load already fired)
+      const removeAppLoader = () => {
+        const loader = document.getElementById("app-loader");
+        if (!loader) return;
+        loader.style.pointerEvents = "none";
+        loader.style.transition = "opacity 0.35s ease";
+        loader.style.opacity = "0";
+        window.setTimeout(() => loader.remove(), 400);
+      };
+
+      // Run ASAP + also on lifecycle events
+      removeAppLoader();
+      document.addEventListener("DOMContentLoaded", removeAppLoader, { once: true });
+      window.addEventListener("load", () => window.setTimeout(removeAppLoader, 0), { once: true });
+      window.setTimeout(removeAppLoader, 3000);
     </script>
   </body>
 </html>

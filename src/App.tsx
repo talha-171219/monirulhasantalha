@@ -35,9 +35,18 @@ const App = () => {
   const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
+    // Ensure the HTML loader overlay never blocks scrolling (failsafe)
+    const loader = document.getElementById("app-loader");
+    if (loader) {
+      loader.style.pointerEvents = "none";
+      loader.style.transition = "opacity 0.35s ease";
+      loader.style.opacity = "0";
+      window.setTimeout(() => loader.remove(), 400);
+    }
+
     // Check if user has already seen splash in this session
     const splashSeen = sessionStorage.getItem("splash_seen");
-    
+
     if (splashSeen === "1") {
       // Already seen splash this session, go straight to app
       setAppReady(true);
@@ -46,7 +55,7 @@ const App = () => {
 
     // Check if audio permission was previously granted (persisted in localStorage)
     const audioPermission = localStorage.getItem(AUDIO_PERMISSION_KEY);
-    
+
     if (audioPermission === "granted") {
       // Permission already granted, skip to splash with audio
       setAudioEnabled(true);
