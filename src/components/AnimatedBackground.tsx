@@ -1,64 +1,27 @@
-import { motion } from "framer-motion";
-
 export const AnimatedBackground = () => {
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 will-change-auto">
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-overlay opacity-30" />
       
-      {/* Floating orbs */}
-      <motion.div
-        className="floating-orb floating-orb-purple w-[600px] h-[600px] -top-40 -left-40"
-        animate={{
-          y: [0, -30, 0, 30, 0],
-          x: [0, 20, 0, -20, 0],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+      {/* Floating orbs - using CSS animations for better performance */}
+      <div 
+        className="floating-orb floating-orb-purple w-[600px] h-[600px] -top-40 -left-40 animate-float-slow"
+        style={{ animationDelay: '0s' }}
       />
       
-      <motion.div
-        className="floating-orb floating-orb-cyan w-[500px] h-[500px] top-1/3 -right-40"
-        animate={{
-          y: [0, 30, 0, -30, 0],
-          x: [0, -20, 0, 20, 0],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1,
-        }}
+      <div 
+        className="floating-orb floating-orb-cyan w-[500px] h-[500px] top-1/3 -right-40 animate-float-medium"
+        style={{ animationDelay: '1s' }}
       />
       
-      <motion.div
-        className="floating-orb floating-orb-purple w-[400px] h-[400px] bottom-20 left-1/4"
-        animate={{
-          y: [0, -20, 0, 20, 0],
-          x: [0, 15, 0, -15, 0],
-        }}
-        transition={{
-          duration: 14,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
+      <div 
+        className="floating-orb floating-orb-purple w-[400px] h-[400px] bottom-20 left-1/4 animate-float-slow"
+        style={{ animationDelay: '2s' }}
       />
 
-      <motion.div
-        className="floating-orb floating-orb-cyan w-[300px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+      <div 
+        className="floating-orb floating-orb-cyan w-[300px] h-[300px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse-scale"
       />
 
       {/* Radial gradient overlay */}
