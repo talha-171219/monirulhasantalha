@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Pencil, Trash2, LogOut, BookOpen, ArrowUp, ArrowDown, Upload, Bot, Send, X, Loader2, Sparkles } from "lucide-react";
+import { Plus, Pencil, Trash2, LogOut, BookOpen, ArrowUp, ArrowDown, Upload, Bot, Send, X, Loader2, Sparkles, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -43,6 +43,7 @@ const AdminDashboard = () => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
+  const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [editingBlogPost, setEditingBlogPost] = useState<BlogPost | null>(null);
   const [formData, setFormData] = useState({
@@ -60,6 +61,12 @@ const AdminDashboard = () => {
     author: "Talha",
     published: true,
   });
+  const [notificationFormData, setNotificationFormData] = useState({
+    title: "",
+    message: "",
+    url: "",
+  });
+  const [isSendingNotification, setIsSendingNotification] = useState(false);
   
   // AI Assistant states
   const [isAIOpen, setIsAIOpen] = useState(false);
@@ -386,6 +393,53 @@ const AdminDashboard = () => {
     setIsBlogDialogOpen(false);
   };
 
+  // Send Push Notification
+  const sendNotification = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSendingNotification) return;
+
+    setIsSendingNotification(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-notification`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify({
+          title: notificationFormData.title,
+          message: notificationFormData.message,
+          url: notificationFormData.url || undefined,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send notification');
+      }
+
+      toast({
+        title: "Notification Sent! 🔔",
+        description: `Sent to ${data.recipients || 0} subscribers`,
+      });
+
+      setNotificationFormData({ title: "", message: "", url: "" });
+      setIsNotificationDialogOpen(false);
+    } catch (error) {
+      console.error('Notification error:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : 'Failed to send notification',
+        variant: "destructive",
+      });
+    } finally {
+      setIsSendingNotification(false);
+    }
+  };
   // AI Assistant Functions
   const sendAIMessage = async () => {
     if (!aiInput.trim() || isAILoading) return;
@@ -568,11 +622,12 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Tabs for Projects and Blog */}
+          {/* Tabs for Projects, Blog, and Notifications */}
           <Tabs defaultValue="projects" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="projects">Projects</TabsTrigger>
               <TabsTrigger value="blog">Daily Blog</TabsTrigger>
+              <TabsTrigger value="notifications">Notifications</TabsTrigger>
             </TabsList>
 
             <TabsContent value="projects" className="space-y-6 mt-6">
@@ -878,6 +933,121 @@ const AdminDashboard = () => {
                   </Card>
                 ))}
               </div>
+            </TabsContent>
+
+            {/* Notifications Tab */}
+            <TabsContent value="notifications" className="space-y-6 mt-6">
+              <Card className="glass-card">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Bell className="w-5 h-5 text-primary" />
+                    Send Push Notification
+                  </CardTitle>
+                  <CardDescription>
+                    Send push notifications to all your subscribers
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={sendNotification} className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium">Title</label>
+                      <Input
+                        value={notificationFormData.title}
+                        onChange={(e) => setNotificationFormData({ ...notificationFormData, title: e.target.value })}
+                        placeholder="Notification title"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Message</label>
+                      <Textarea
+                        value={notificationFormData.message}
+                        onChange={(e) => setNotificationFormData({ ...notificationFormData, message: e.target.value })}
+                        placeholder="Write your notification message..."
+                        required
+                        rows={4}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium">Link URL (Optional)</label>
+                      <Input
+                        type="url"
+                        value={notificationFormData.url}
+                        onChange={(e) => setNotificationFormData({ ...notificationFormData, url: e.target.value })}
+                        placeholder="https://example.com/page"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Users will be taken to this URL when they click the notification
+                      </p>
+                    </div>
+                    <Button type="submit" disabled={isSendingNotification} className="w-full">
+                      {isSendingNotification ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <Bell className="w-4 h-4 mr-2" />
+                          Send Notification
+                        </>
+                      )}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+
+              {/* Quick Notification Templates */}
+              <Card className="glass-card">
+                <CardHeader>
+                  <CardTitle>Quick Templates</CardTitle>
+                  <CardDescription>Click to use a template</CardDescription>
+                </CardHeader>
+                <CardContent className="grid gap-2">
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3"
+                    onClick={() => setNotificationFormData({
+                      title: "🚀 New Project Added!",
+                      message: "Check out my latest project on the portfolio!",
+                      url: "https://monirulhasantalha.lovable.app/projects",
+                    })}
+                  >
+                    <div className="text-left">
+                      <p className="font-medium">New Project Announcement</p>
+                      <p className="text-xs text-muted-foreground">Notify about a new project</p>
+                    </div>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3"
+                    onClick={() => setNotificationFormData({
+                      title: "📝 New Blog Post!",
+                      message: "I just published a new blog post. Check it out!",
+                      url: "https://monirulhasantalha.lovable.app/blog",
+                    })}
+                  >
+                    <div className="text-left">
+                      <p className="font-medium">New Blog Post</p>
+                      <p className="text-xs text-muted-foreground">Notify about a new blog entry</p>
+                    </div>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="justify-start h-auto py-3"
+                    onClick={() => setNotificationFormData({
+                      title: "✨ Portfolio Update!",
+                      message: "I've updated my portfolio with new features!",
+                      url: "https://monirulhasantalha.lovable.app",
+                    })}
+                  >
+                    <div className="text-left">
+                      <p className="font-medium">General Update</p>
+                      <p className="text-xs text-muted-foreground">Announce portfolio updates</p>
+                    </div>
+                  </Button>
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </div>

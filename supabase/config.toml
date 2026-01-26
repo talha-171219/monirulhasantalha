@@ -1,1 +1,13 @@
 project_id = "nxpmbnhaudqaabdzstuu"
+
+[functions.chat]
+verify_jwt = false
+
+[functions.admin-assistant]
+verify_jwt = false
+
+[functions.generate-thumbnail]
+verify_jwt = false
+
+[functions.send-notification]
+verify_jwt = false
