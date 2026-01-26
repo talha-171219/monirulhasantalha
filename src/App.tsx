@@ -44,6 +44,29 @@ const App = () => {
       window.setTimeout(() => loader.remove(), 400);
     }
 
+    // Request OneSignal notification permission
+    const requestNotificationPermission = async () => {
+      try {
+        // Wait for OneSignal to be ready
+        if (typeof window !== 'undefined' && (window as any).OneSignalDeferred) {
+          (window as any).OneSignalDeferred.push(async (OneSignal: any) => {
+            // Check if already subscribed
+            const permission = await OneSignal.Notifications.permission;
+            if (!permission) {
+              // Request permission with a slight delay for better UX
+              setTimeout(async () => {
+                await OneSignal.Notifications.requestPermission();
+              }, 2000);
+            }
+          });
+        }
+      } catch (error) {
+        console.log('OneSignal permission request error:', error);
+      }
+    };
+
+    requestNotificationPermission();
+
     // Check if user has already seen splash in this session
     const splashSeen = sessionStorage.getItem("splash_seen");
 
