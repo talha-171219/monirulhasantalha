@@ -71,7 +71,8 @@ const AllProjects = () => {
   }
 
   const premiumProjects = filteredProjects.filter(p => p.premium);
-  const simpleProjects = filteredProjects.filter(p => !p.premium);
+  const personalProjects = filteredProjects.filter(p => p.category === "Personal" && !p.premium);
+  const simpleProjects = filteredProjects.filter(p => !p.premium && p.category !== "Personal");
 
   return (
     <div className="min-h-screen pb-20">
@@ -134,6 +135,26 @@ const AllProjects = () => {
                 </div>
               )}
 
+              {personalProjects.length > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                      Personal Projects
+                    </h2>
+                    <Badge variant="secondary" className="bg-green-500/20 text-green-400 border-green-500/30">
+                      {personalProjects.length}
+                    </Badge>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {personalProjects.map((project, index) => (
+                      <div key={project.id} className="fade-in" style={{ animationDelay: `${(premiumProjects.length + index) * 0.05}s` }}>
+                        <ProjectCard project={project} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {simpleProjects.length > 0 && (
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
@@ -142,7 +163,7 @@ const AllProjects = () => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {simpleProjects.map((project, index) => (
-                      <div key={project.id} className="fade-in" style={{ animationDelay: `${(premiumProjects.length + index) * 0.05}s` }}>
+                      <div key={project.id} className="fade-in" style={{ animationDelay: `${(premiumProjects.length + personalProjects.length + index) * 0.05}s` }}>
                         <ProjectCard project={project} />
                       </div>
                     ))}

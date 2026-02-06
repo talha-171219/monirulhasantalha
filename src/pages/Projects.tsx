@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Crown, Layers, Sparkles } from "lucide-react";
+import { Crown, Layers, Sparkles, User } from "lucide-react";
 
 const Projects = () => {
   const navigate = useNavigate();
@@ -10,6 +10,7 @@ const Projects = () => {
     { path: "/projects/all", label: "All Projects", icon: Layers, description: "Browse all my work" },
     { path: "/projects/premium", label: "Premium Projects", icon: Crown, description: "Advanced full-stack apps", isPremium: true },
     { path: "/projects/simple", label: "Simple Apps", icon: Sparkles, description: "Quick utility tools" },
+    { path: "/projects/personal", label: "Personal Projects", icon: User, description: "My personal apps & tools", isPersonal: true },
   ];
 
   return (
@@ -40,12 +41,30 @@ const Projects = () => {
                   <Button
                     onClick={() => navigate(cat.path)}
                     size="lg"
-                    className={`w-full h-20 text-lg justify-start gap-4 ${cat.isPremium ? 'glow-button' : 'glass-card hover:border-primary/30'} ${!cat.isPremium && 'bg-transparent hover:bg-primary/10 text-foreground'}`}
+                    className={`w-full h-20 text-lg justify-start gap-4 ${
+                      cat.isPremium 
+                        ? 'glow-button' 
+                        : cat.isPersonal 
+                          ? 'bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 hover:border-green-400/50 text-foreground' 
+                          : 'glass-card hover:border-primary/30 bg-transparent hover:bg-primary/10 text-foreground'
+                    }`}
                   >
-                    <cat.icon className={`w-6 h-6 ${cat.isPremium ? 'text-white' : 'text-accent icon-glow'}`} />
+                    <cat.icon className={`w-6 h-6 ${
+                      cat.isPremium 
+                        ? 'text-white' 
+                        : cat.isPersonal 
+                          ? 'text-green-400' 
+                          : 'text-accent icon-glow'
+                    }`} />
                     <div className="text-left">
                       <div className="font-semibold">{cat.label}</div>
-                      <div className={`text-xs ${cat.isPremium ? 'text-white/70' : 'text-muted-foreground'}`}>{cat.description}</div>
+                      <div className={`text-xs ${
+                        cat.isPremium 
+                          ? 'text-white/70' 
+                          : cat.isPersonal 
+                            ? 'text-green-300/70' 
+                            : 'text-muted-foreground'
+                      }`}>{cat.description}</div>
                     </div>
                   </Button>
                 </motion.div>
