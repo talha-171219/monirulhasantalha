@@ -12,36 +12,40 @@ const Projects = () => {
       label: "All Projects", 
       icon: Layers, 
       description: "Browse all my work",
-      colorClass: "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border border-blue-500/30 hover:border-blue-400/50 hover:from-blue-600/30 hover:to-indigo-600/30",
-      iconClass: "text-blue-400",
-      descClass: "text-blue-300/70"
+      bgStyle: "bg-[linear-gradient(135deg,hsl(220,80%,45%)_0%,hsl(240,70%,55%)_100%)]",
+      hoverStyle: "hover:shadow-[0_0_25px_hsla(220,80%,50%,0.5)]",
+      iconClass: "text-white",
+      descClass: "text-blue-100/80"
     },
     { 
       path: "/projects/premium", 
       label: "Premium Projects", 
       icon: Crown, 
       description: "Advanced full-stack apps", 
-      colorClass: "bg-gradient-to-r from-violet-600/20 to-purple-600/20 border border-violet-500/30 hover:border-violet-400/50 hover:from-violet-600/30 hover:to-purple-600/30 shadow-[0_0_20px_hsla(270,70%,50%,0.2)]",
-      iconClass: "text-violet-400",
-      descClass: "text-violet-300/70"
+      bgStyle: "bg-[linear-gradient(135deg,hsl(280,70%,50%)_0%,hsl(320,80%,55%)_100%)]",
+      hoverStyle: "hover:shadow-[0_0_25px_hsla(280,70%,55%,0.5)]",
+      iconClass: "text-white",
+      descClass: "text-purple-100/80"
     },
     { 
       path: "/projects/simple", 
       label: "Simple Apps", 
       icon: Sparkles, 
       description: "Quick utility tools",
-      colorClass: "bg-gradient-to-r from-cyan-600/20 to-teal-600/20 border border-cyan-500/30 hover:border-cyan-400/50 hover:from-cyan-600/30 hover:to-teal-600/30",
-      iconClass: "text-cyan-400",
-      descClass: "text-cyan-300/70"
+      bgStyle: "bg-[linear-gradient(135deg,hsl(185,80%,40%)_0%,hsl(200,85%,50%)_100%)]",
+      hoverStyle: "hover:shadow-[0_0_25px_hsla(185,80%,45%,0.5)]",
+      iconClass: "text-white",
+      descClass: "text-cyan-100/80"
     },
     { 
       path: "/projects/personal", 
       label: "Personal Projects", 
       icon: User, 
       description: "My personal apps & tools",
-      colorClass: "bg-gradient-to-r from-emerald-600/20 to-green-600/20 border border-emerald-500/30 hover:border-emerald-400/50 hover:from-emerald-600/30 hover:to-green-600/30",
-      iconClass: "text-emerald-400",
-      descClass: "text-emerald-300/70"
+      bgStyle: "bg-[linear-gradient(135deg,hsl(150,70%,40%)_0%,hsl(170,75%,45%)_100%)]",
+      hoverStyle: "hover:shadow-[0_0_25px_hsla(150,70%,45%,0.5)]",
+      iconClass: "text-white",
+      descClass: "text-emerald-100/80"
     },
   ];
 
@@ -73,7 +77,7 @@ const Projects = () => {
                   <Button
                     onClick={() => navigate(cat.path)}
                     size="lg"
-                    className={`w-full h-20 text-lg justify-start gap-4 ${cat.colorClass} text-foreground transition-all duration-300`}
+                    className={`w-full h-20 text-lg justify-start gap-4 ${cat.bgStyle} ${cat.hoverStyle} text-white border-0 transition-all duration-300 hover:scale-[1.02]`}
                   >
                     <cat.icon className={`w-6 h-6 ${cat.iconClass}`} />
                     <div className="text-left">
