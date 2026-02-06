@@ -87,6 +87,14 @@ CONVERSATION RULES (CRITICAL):
 CURRENT PROJECTS:
 ${projectsList}
 
+PROJECT CATEGORIES (IMPORTANT):
+There are 3 main project types:
+1. Premium Projects - Set premium: true (high-quality, featured apps)
+2. Personal Projects - Set category: "Personal" (Talha's own personal apps/tools)
+3. Simple Apps - Any other category like "Productivity", "Education", "Gaming", etc.
+
+Available categories: Personal, Productivity, Education, Gaming, Finance, Social, Entertainment, Utility, Islamic, Tools, Communication, Health, Travel, Media, Development
+
 You can help with:
 1. Adding new projects - Generate descriptions and thumbnails if not provided
 2. Adding blog posts - Help write and format content in Banglish
@@ -98,7 +106,7 @@ When user wants to add a project, extract this info and respond with JSON:
   "data": {
     "title": "Project Name (ENGLISH)",
     "description": "Description in ENGLISH",
-    "category": "Category in ENGLISH",
+    "category": "Personal | Productivity | Education | Gaming | etc.",
     "app_url": "https://...",
     "thumbnail": "generate" or "provided_url",
     "premium": true/false,
