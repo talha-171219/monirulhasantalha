@@ -36,6 +36,23 @@ import focusTimerThumb from "@/assets/thumbnails/focus-timer.jpg";
 import eventSplitterThumb from "@/assets/thumbnails/event-splitter.jpg";
 import mgxDemoThumb from "@/assets/thumbnails/mgx-demo.jpg";
 import muslimCornerThumb from "@/assets/thumbnails/muslim-corner.jpg";
+// New unique thumbnails
+import ramadanCompanionThumb from "@/assets/thumbnails/ramadan-companion.jpg";
+import dailyDuasThumb from "@/assets/thumbnails/daily-duas.jpg";
+import socialNetworkThumb from "@/assets/thumbnails/social-network.jpg";
+import studywizJournalThumb from "@/assets/thumbnails/studywiz-journal.jpg";
+import megatoolsThumb from "@/assets/thumbnails/megatools.jpg";
+import ludoMasterThumb from "@/assets/thumbnails/ludo-master.jpg";
+import breachCheckerThumb from "@/assets/thumbnails/breach-checker.jpg";
+import bangladeshCalendarThumb from "@/assets/thumbnails/bangladesh-calendar.jpg";
+import takaTrackAiThumb from "@/assets/thumbnails/taka-track-ai.jpg";
+import decideRoomThumb from "@/assets/thumbnails/decide-room.jpg";
+import iconjoyVaultThumb from "@/assets/thumbnails/iconjoy-vault.jpg";
+import allinoneCameraThumb from "@/assets/thumbnails/allinone-camera.jpg";
+import tasbihProThumb from "@/assets/thumbnails/tasbih-pro.jpg";
+import travelWithTalhaThumb from "@/assets/thumbnails/travel-with-talha.jpg";
+import flipclockThumb from "@/assets/thumbnails/flipclock.jpg";
+import passwordProtectThumb from "@/assets/thumbnails/password-protect.jpg";
 
 export interface Project {
   id: string;
@@ -65,7 +82,7 @@ export const projects: Project[] = [
   {
     id: "muslim-corner",
     title: "Muslim Corner",
-    description: "Islamic PDF library with Quran, hadith, and Islamic books collection",
+    description: "Complete Islamic library with Quran, Hadith collections, and authentic Islamic books",
     thumbnail: muslimCornerThumb,
     appUrl: "https://muslim-corner-by-talha.lovable.app",
     category: "Religion",
@@ -77,8 +94,8 @@ export const projects: Project[] = [
   {
     id: "ramadan-companion",
     title: "Ramadan Companion",
-    description: "Ramadan-focused utilities, schedules and resources (placeholder description)",
-    thumbnail: muslimCornerThumb,
+    description: "Your essential Ramadan guide with Sehri/Iftar times, dua collection, and daily tracker",
+    thumbnail: ramadanCompanionThumb,
     appUrl: "https://ramadan-companio-bytalha.lovable.app",
     category: "Religion",
     featured: true,
@@ -87,8 +104,8 @@ export const projects: Project[] = [
   {
     id: "daily-duas",
     title: "Daily Duas",
-    description: "Collection of daily duas and short supplications (placeholder description)",
-    thumbnail: muslimCornerThumb,
+    description: "Beautiful collection of daily supplications with Arabic text, transliteration and meaning",
+    thumbnail: dailyDuasThumb,
     appUrl: "https://dailyduas.lovable.app",
     category: "Religion",
     featured: true,
@@ -97,8 +114,8 @@ export const projects: Project[] = [
   {
     id: "social-network",
     title: "Social Network",
-    description: "Full-featured social network (Facebook-like) demo (placeholder description)",
-    thumbnail: socialMediaThumb,
+    description: "Full-featured Facebook-style social platform with posts, friends, and real-time chat",
+    thumbnail: socialNetworkThumb,
     appUrl: "https://social-network-mhtfinal.lovable.app",
     category: "Social Media",
     premium: true
@@ -149,8 +166,8 @@ export const projects: Project[] = [
   {
     id: "studywiz-journal",
     title: "StudyWiz Journal",
-    description: "Study journal and notes app (placeholder description)",
-    thumbnail: studyHelperThumb,
+    description: "Smart study journal with note-taking, progress tracking, and study schedule planner",
+    thumbnail: studywizJournalThumb,
     appUrl: "https://studywiz-journal-by-talha.lovable.app",
     category: "Education",
     premium: true
@@ -158,8 +175,8 @@ export const projects: Project[] = [
   {
     id: "allinone-megatools",
     title: "All-in-One MegaTools",
-    description: "A collection of powerful utilities and tools (placeholder description)",
-    thumbnail: mgxDemoThumb,
+    description: "Ultimate utility toolkit with 50+ tools including converter, calculator, and generators",
+    thumbnail: megatoolsThumb,
     appUrl: "https://allinone-megatools.lovable.app",
     category: "Utility",
     premium: true
@@ -167,8 +184,8 @@ export const projects: Project[] = [
   {
     id: "ludo-master",
     title: "Ludo Master",
-    description: "Online Ludo game with multiplayer support (placeholder description)",
-    thumbnail: gamesThumb,
+    description: "Classic Ludo board game with online multiplayer, AI opponents, and tournaments",
+    thumbnail: ludoMasterThumb,
     appUrl: "https://ludomasterfinal.lovable.app",
     category: "Games",
     premium: true
@@ -176,8 +193,8 @@ export const projects: Project[] = [
   {
     id: "breach-checker",
     title: "Breach Checker",
-    description: "Security tool to check data breaches and vulnerabilities (placeholder description)",
-    thumbnail: imageConverterThumb,
+    description: "Check if your email or password was exposed in data breaches and stay secure",
+    thumbnail: breachCheckerThumb,
     appUrl: "https://breachchecker.lovable.app",
     category: "Security",
     premium: true
@@ -185,8 +202,8 @@ export const projects: Project[] = [
   {
     id: "bangladesh-calendar-2026",
     title: "Bangladesh Calendar 2026",
-    description: "Bangladesh-specific calendar for 2026 with holidays (placeholder description)",
-    thumbnail: calendeThumb,
+    description: "Bengali calendar with government holidays, Islamic dates, and event reminders",
+    thumbnail: bangladeshCalendarThumb,
     appUrl: "https://bangladeshcalender2026.lovable.app",
     category: "Productivity",
     premium: true
@@ -194,8 +211,8 @@ export const projects: Project[] = [
   {
     id: "taka-track-ai",
     title: "Taka Track AI",
-    description: "AI-powered finance tracker and insights (placeholder description)",
-    thumbnail: tabeyaAiThumb,
+    description: "AI-powered expense tracker for Bangladeshi Taka with smart insights and budgeting",
+    thumbnail: takaTrackAiThumb,
     appUrl: "https://takatrackai.lovable.app",
     category: "Finance",
     premium: true
@@ -203,8 +220,8 @@ export const projects: Project[] = [
   {
     id: "decide-room",
     title: "Decide Room",
-    description: "Decision making tool to help groups decide faster (placeholder description)",
-    thumbnail: realspaceDesignerThumb,
+    description: "Collaborative decision-making tool for teams with voting, polls, and consensus building",
+    thumbnail: decideRoomThumb,
     appUrl: "https://decide-room.lovable.app",
     category: "Utility",
     premium: true
@@ -653,8 +670,8 @@ export const projects: Project[] = [
   {
     id: "iconjoy-vault",
     title: "IconJoy Vault",
-    description: "IconJoy Vault — secure storage for icons and assets (placeholder)",
-    thumbnail: mgxDemoThumb,
+    description: "Curated collection of 10,000+ premium icons and assets for designers and developers",
+    thumbnail: iconjoyVaultThumb,
     appUrl: "https://iconjoy-vault.lovable.app",
     category: "Utility",
     featured: false
@@ -662,8 +679,8 @@ export const projects: Project[] = [
   {
     id: "allinone-camerav2",
     title: "All-in-One Camera v2",
-    description: "Camera utility with filters and tools (placeholder)",
-    thumbnail: mgxDemoThumb,
+    description: "Pro camera app with 40+ filters, beauty mode, and professional editing tools",
+    thumbnail: allinoneCameraThumb,
     appUrl: "https://allinone-camerav2.lovable.app",
     category: "Photography",
     featured: false
@@ -671,8 +688,8 @@ export const projects: Project[] = [
   {
     id: "tasbihpro",
     title: "Tasbih Pro",
-    description: "Digital tasbih and counting app for zikr (placeholder)",
-    thumbnail: mgxDemoThumb,
+    description: "Digital tasbih counter with 99 names of Allah, multiple counters, and daily goals",
+    thumbnail: tasbihProThumb,
     appUrl: "https://tasbihpro.lovable.app",
     category: "Religion",
     featured: false
@@ -680,8 +697,8 @@ export const projects: Project[] = [
   {
     id: "travel-with-talha",
     title: "Travel with Talha",
-    description: "Travel guides and trip planner by Talha (placeholder)",
-    thumbnail: mgxDemoThumb,
+    description: "Explore travel destinations, plan trips, and discover hidden gems around the world",
+    thumbnail: travelWithTalhaThumb,
     appUrl: "https://travel-with-talha.lovable.app",
     category: "Travel",
     featured: false
@@ -689,8 +706,8 @@ export const projects: Project[] = [
   {
     id: "flipclock-final",
     title: "FlipClock Final",
-    description: "Stylish flip clock widget and timers (placeholder)",
-    thumbnail: mgxDemoThumb,
+    description: "Beautiful retro flip clock with customizable themes, alarms, and world time zones",
+    thumbnail: flipclockThumb,
     appUrl: "https://flipclock-final.lovable.app",
     category: "Productivity",
     featured: false
@@ -698,8 +715,8 @@ export const projects: Project[] = [
   {
     id: "passwordprotect",
     title: "Password Protect",
-    description: "Simple password protection utility for notes and files (placeholder)",
-    thumbnail: mgxDemoThumb,
+    description: "Secure vault to protect your files and notes with military-grade encryption",
+    thumbnail: passwordProtectThumb,
     appUrl: "https://passwordprotect.lovable.app",
     category: "Security",
     featured: false
