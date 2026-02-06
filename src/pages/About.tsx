@@ -1,10 +1,12 @@
 import { Mail, MapPin, Github, Phone, Facebook, MessageCircle, Code2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { getBioData } from "@/data/projects";
 import { Badge } from "@/components/ui/badge";
 import profileImage from "@/assets/profile-image.jpg";
 
 const About = () => {
+  const navigate = useNavigate();
   const bio = getBioData();
 
   return (
@@ -39,7 +41,7 @@ const About = () => {
             
             <div className="flex flex-wrap gap-3 justify-center pt-4">
               <motion.button
-                onClick={() => window.location.href = '/blog'}
+                onClick={() => navigate('/blog')}
                 className="px-6 py-3 glow-button text-white rounded-xl font-semibold"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -47,7 +49,7 @@ const About = () => {
                 📝 Daily Blog
               </motion.button>
               <motion.button
-                onClick={() => window.location.href = '/settings'}
+                onClick={() => navigate('/settings')}
                 className="px-6 py-3 glow-button-outline rounded-xl font-semibold text-foreground hover:text-primary"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
