@@ -219,9 +219,10 @@ const AdminDashboard = () => {
     };
 
     if (editingProject) {
+      const { projectType, ...updateData } = formData;
       const { error } = await supabase
         .from("projects")
-        .update(formData)
+        .update(updateData)
         .eq("id", editingProject.id);
 
       if (error) {
@@ -239,8 +240,9 @@ const AdminDashboard = () => {
         resetForm();
       }
     } else {
+      const { projectType, ...insertData } = formData;
       const { error } = await supabase.from("projects").insert([{
-        ...formData,
+        ...insertData,
         display_order: getNextDisplayOrder()
       }]);
 
