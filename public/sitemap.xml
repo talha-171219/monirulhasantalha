@@ -1,27 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://monirul-hasan-talha-portfolio.lovable.app/</loc>
-    <lastmod>2025-10-15</lastmod>
+    <loc>https://monirulhasantalha.vercel.app/</loc>
+    <lastmod>2026-02-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://monirul-hasan-talha-portfolio.lovable.app/projects</loc>
-    <lastmod>2025-10-15</lastmod>
+    <loc>https://monirulhasantalha.vercel.app/projects</loc>
+    <lastmod>2026-02-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://monirulhasantalha.vercel.app/projects/all</loc>
+    <lastmod>2026-02-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://monirul-hasan-talha-portfolio.lovable.app/blog</loc>
-    <lastmod>2025-10-15</lastmod>
+    <loc>https://monirulhasantalha.vercel.app/projects/premium</loc>
+    <lastmod>2026-02-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://monirul-hasan-talha-portfolio.lovable.app/about</loc>
-    <lastmod>2025-10-15</lastmod>
+    <loc>https://monirulhasantalha.vercel.app/projects/simple</loc>
+    <lastmod>2026-02-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://monirulhasantalha.vercel.app/projects/games</loc>
+    <lastmod>2026-02-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://monirulhasantalha.vercel.app/projects/personal</loc>
+    <lastmod>2026-02-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://monirulhasantalha.vercel.app/about</loc>
+    <lastmod>2026-02-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://monirulhasantalha.vercel.app/blog</loc>
+    <lastmod>2026-02-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://monirulhasantalha.vercel.app/activities</loc>
+    <lastmod>2026-02-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://monirulhasantalha.vercel.app/favorites</loc>
+    <lastmod>2026-02-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
