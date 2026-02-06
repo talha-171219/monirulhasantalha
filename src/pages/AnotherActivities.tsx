@@ -17,7 +17,7 @@ const AnotherActivities = () => {
   const [iframeKey, setIframeKey] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   
-  const appUrl = "https://sosapp-by-talha.lovable.app";
+  const appUrl = "https://anotheractivitiesforportfolio.lovable.app";
   const title = "Another Activities";
 
   const handleRefresh = () => {
