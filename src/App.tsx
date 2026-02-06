@@ -38,6 +38,14 @@ const App = () => {
   const [appReady, setAppReady] = useState(false);
 
   useEffect(() => {
+    // Global error handler to prevent white screen crashes
+    const handleRejection = (event: PromiseRejectionEvent) => {
+      console.error("Unhandled rejection:", event.reason);
+      event.preventDefault(); // Prevent crash
+    };
+
+    window.addEventListener("unhandledrejection", handleRejection);
+
     // Ensure the HTML loader overlay never blocks scrolling (failsafe)
     const loader = document.getElementById("app-loader");
     if (loader) {
@@ -47,45 +55,76 @@ const App = () => {
       window.setTimeout(() => loader.remove(), 400);
     }
 
-    // OneSignal is handled by the SDK in index.html - no additional code needed here
+    // Safety timeout - if splash doesn't complete in 10 seconds, force app ready
+    const safetyTimeout = setTimeout(() => {
+      if (!appReady) {
+        console.log("Safety timeout triggered - forcing app ready");
+        setShowAudioPermission(false);
+        setShowSplash(false);
+        setAppReady(true);
+        sessionStorage.setItem("splash_seen", "1");
+      }
+    }, 10000);
 
-    // Check if user has already seen splash in this session
-    const splashSeen = sessionStorage.getItem("splash_seen");
+    try {
+      // Check if user has already seen splash in this session
+      const splashSeen = sessionStorage.getItem("splash_seen");
 
-    if (splashSeen === "1") {
-      // Already seen splash this session, go straight to app
+      if (splashSeen === "1") {
+        // Already seen splash this session, go straight to app
+        setAppReady(true);
+        return () => {
+          clearTimeout(safetyTimeout);
+          window.removeEventListener("unhandledrejection", handleRejection);
+        };
+      }
+
+      // Check if audio permission was previously granted (persisted in localStorage)
+      const audioPermission = localStorage.getItem(AUDIO_PERMISSION_KEY);
+
+      if (audioPermission === "granted") {
+        // Permission already granted, skip to splash with audio
+        setAudioEnabled(true);
+        setShowSplash(true);
+      } else if (audioPermission === "denied") {
+        // User previously skipped, go to splash without audio
+        setAudioEnabled(false);
+        setShowSplash(true);
+      } else {
+        // First time - show audio permission screen
+        setShowAudioPermission(true);
+      }
+    } catch (error) {
+      // If localStorage/sessionStorage fails, just show the app
+      console.error("Storage error:", error);
       setAppReady(true);
-      return;
     }
 
-    // Check if audio permission was previously granted (persisted in localStorage)
-    const audioPermission = localStorage.getItem(AUDIO_PERMISSION_KEY);
-
-    if (audioPermission === "granted") {
-      // Permission already granted, skip to splash with audio
-      setAudioEnabled(true);
-      setShowSplash(true);
-    } else if (audioPermission === "denied") {
-      // User previously skipped, go to splash without audio
-      setAudioEnabled(false);
-      setShowSplash(true);
-    } else {
-      // First time - show audio permission screen
-      setShowAudioPermission(true);
-    }
-  }, []);
+    return () => {
+      clearTimeout(safetyTimeout);
+      window.removeEventListener("unhandledrejection", handleRejection);
+    };
+  }, [appReady]);
 
   const handleAudioAllow = () => {
-    // Save permission permanently
-    localStorage.setItem(AUDIO_PERMISSION_KEY, "granted");
+    try {
+      // Save permission permanently
+      localStorage.setItem(AUDIO_PERMISSION_KEY, "granted");
+    } catch (e) {
+      console.error("Failed to save audio preference:", e);
+    }
     setAudioEnabled(true);
     setShowAudioPermission(false);
     setShowSplash(true);
   };
 
   const handleAudioSkip = () => {
-    // Save preference permanently
-    localStorage.setItem(AUDIO_PERMISSION_KEY, "denied");
+    try {
+      // Save preference permanently
+      localStorage.setItem(AUDIO_PERMISSION_KEY, "denied");
+    } catch (e) {
+      console.error("Failed to save audio preference:", e);
+    }
     setAudioEnabled(false);
     setShowAudioPermission(false);
     setShowSplash(true);
@@ -94,7 +133,11 @@ const App = () => {
   const handleSplashComplete = () => {
     setShowSplash(false);
     setAppReady(true);
-    sessionStorage.setItem("splash_seen", "1");
+    try {
+      sessionStorage.setItem("splash_seen", "1");
+    } catch (e) {
+      console.error("Failed to save splash state:", e);
+    }
   };
 
   return (
