@@ -54,6 +54,7 @@ const AdminDashboard = () => {
     thumbnail: "",
     featured: false,
     premium: false,
+    projectType: "simple" as "premium" | "personal" | "simple",
   });
   const [blogFormData, setBlogFormData] = useState({
     title: "",
@@ -282,6 +283,7 @@ const AdminDashboard = () => {
 
   const handleEdit = (project: Project) => {
     setEditingProject(project);
+    const projectType = project.premium ? "premium" : project.category === "Personal" ? "personal" : "simple";
     setFormData({
       title: project.title,
       description: project.description,
@@ -290,6 +292,7 @@ const AdminDashboard = () => {
       thumbnail: project.thumbnail,
       featured: project.featured,
       premium: project.premium || false,
+      projectType,
     });
     setIsDialogOpen(true);
   };
@@ -303,6 +306,7 @@ const AdminDashboard = () => {
       thumbnail: "",
       featured: false,
       premium: false,
+      projectType: "simple",
     });
     setEditingProject(null);
     setIsDialogOpen(false);
@@ -724,23 +728,33 @@ const AdminDashboard = () => {
                 </div>
                 <div>
                   <label className="text-sm font-medium block mb-2">Project Type</label>
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 flex-wrap">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
                         name="projectType"
-                        checked={formData.premium === true}
-                        onChange={() => setFormData({ ...formData, premium: true })}
-                        className="w-4 h-4"
+                        checked={formData.projectType === "premium"}
+                        onChange={() => setFormData({ ...formData, projectType: "premium", premium: true, category: formData.category === "Personal" ? "" : formData.category })}
+                        className="w-4 h-4 accent-amber-500"
                       />
-                      <span className="text-sm">Premium</span>
+                      <span className="text-sm text-amber-500">Premium</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input
                         type="radio"
                         name="projectType"
-                        checked={formData.premium === false}
-                        onChange={() => setFormData({ ...formData, premium: false })}
+                        checked={formData.projectType === "personal"}
+                        onChange={() => setFormData({ ...formData, projectType: "personal", premium: false, category: "Personal" })}
+                        className="w-4 h-4 accent-green-500"
+                      />
+                      <span className="text-sm text-green-500">Personal</span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="projectType"
+                        checked={formData.projectType === "simple"}
+                        onChange={() => setFormData({ ...formData, projectType: "simple", premium: false, category: formData.category === "Personal" ? "" : formData.category })}
                         className="w-4 h-4"
                       />
                       <span className="text-sm">Simple</span>
@@ -782,6 +796,11 @@ const AdminDashboard = () => {
                         {project.premium && (
                           <span className="text-xs bg-amber-500/10 text-amber-500 px-2 py-1 rounded mt-1 ml-2 inline-block">
                             Premium
+                          </span>
+                        )}
+                        {project.category === "Personal" && !project.premium && (
+                          <span className="text-xs bg-green-500/10 text-green-500 px-2 py-1 rounded mt-1 ml-2 inline-block">
+                            Personal
                           </span>
                         )}
                       </div>
