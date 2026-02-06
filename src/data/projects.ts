@@ -53,6 +53,31 @@ import tasbihProThumb from "@/assets/thumbnails/tasbih-pro.jpg";
 import travelWithTalhaThumb from "@/assets/thumbnails/travel-with-talha.jpg";
 import flipclockThumb from "@/assets/thumbnails/flipclock.jpg";
 import passwordProtectThumb from "@/assets/thumbnails/password-protect.jpg";
+// Additional unique thumbnails for duplicates
+import privateVaultThumb from "@/assets/thumbnails/private-vault.jpg";
+import studyflowThumb from "@/assets/thumbnails/studyflow.jpg";
+import pythonJarvisThumb from "@/assets/thumbnails/python-jarvis.jpg";
+import personalAiThumb from "@/assets/thumbnails/personal-ai.jpg";
+import aiMiniBotThumb from "@/assets/thumbnails/ai-mini-bot.jpg";
+import workspaceCanvasThumb from "@/assets/thumbnails/workspace-canvas.jpg";
+import cycletimeThumb from "@/assets/thumbnails/cycletime.jpg";
+import mesbahulLibraryThumb from "@/assets/thumbnails/mesbahul-library.jpg";
+import facebookCloneThumb from "@/assets/thumbnails/facebook-clone.jpg";
+import simpleSocialThumb from "@/assets/thumbnails/simple-social.jpg";
+import chatsparkThumb from "@/assets/thumbnails/chatspark.jpg";
+import personalChatThumb from "@/assets/thumbnails/personal-chat.jpg";
+import telegramIdThumb from "@/assets/thumbnails/telegram-id.jpg";
+import personalFinanceThumb from "@/assets/thumbnails/personal-finance.jpg";
+import browserDemoThumb from "@/assets/thumbnails/browser-demo.jpg";
+import appLockThumb from "@/assets/thumbnails/app-lock.jpg";
+import travelCompanionThumb from "@/assets/thumbnails/travel-companion.jpg";
+import capcutLiteThumb from "@/assets/thumbnails/capcut-lite.jpg";
+import pixelRunnerThumb from "@/assets/thumbnails/pixel-runner.jpg";
+import ticTacToeThumb from "@/assets/thumbnails/tic-tac-toe.jpg";
+import songAppThumb from "@/assets/thumbnails/song-app.jpg";
+import safeHavenTimerThumb from "@/assets/thumbnails/safe-haven-timer.jpg";
+import hscExamThumb from "@/assets/thumbnails/hsc-exam.jpg";
+import hajjGuideThumb from "@/assets/thumbnails/hajj-guide.jpg";
 
 export interface Project {
   id: string;
@@ -136,7 +161,7 @@ export const projects: Project[] = [
     id: "private-vault",
     title: "Private Vault",
     description: "Secure vault to store and protect your private files and data",
-    thumbnail: lockDiaryThumb,
+    thumbnail: privateVaultThumb,
     appUrl: "https://privatevault-01.lovable.app/",
     category: "Utility",
     featured: true,
@@ -156,7 +181,7 @@ export const projects: Project[] = [
     id: "chatspark",
     title: "ChatSpark",
     description: "Real-time messaging app for instant communication",
-    thumbnail: chatAppThumb,
+    thumbnail: chatsparkThumb,
     appUrl: "https://chatsparkwithyouandme2.lovable.app",
     category: "Communication",
     featured: true,
@@ -230,7 +255,7 @@ export const projects: Project[] = [
     id: "studyflow",
     title: "StudyFlow",
     description: "Complete study management app with schedules and progress tracking",
-    thumbnail: studyHelperThumb,
+    thumbnail: studyflowThumb,
     appUrl: "https://studyflowbytalha-final.vercel.app/",
     category: "Education",
     featured: true,
@@ -240,7 +265,7 @@ export const projects: Project[] = [
     id: "hsc-ques-exam",
     title: "HSC Ques & Exam",
     description: "HSC question bank and exam practice platform",
-    thumbnail: hscQuizThumb,
+    thumbnail: hscExamThumb,
     appUrl: "https://hsc-ques-and-exam-bytalha.lovable.app",
     category: "Education",
     featured: true,
@@ -250,7 +275,7 @@ export const projects: Project[] = [
     id: "pure-python-jarvis",
     title: "Pure Python Jarvis",
     description: "AI assistant powered by Python for automation and tasks",
-    thumbnail: tabeyaAiThumb,
+    thumbnail: pythonJarvisThumb,
     appUrl: "https://pure-python-jarvis.lovable.app",
     category: "AI / ML",
     featured: true,
@@ -260,7 +285,7 @@ export const projects: Project[] = [
     id: "personal-ai",
     title: "Personal AI",
     description: "Your personal AI companion for daily assistance",
-    thumbnail: tabeyaAiThumb,
+    thumbnail: personalAiThumb,
     appUrl: "https://talhas-personal-ai.lovable.app",
     category: "AI / ML",
     featured: true,
@@ -270,7 +295,7 @@ export const projects: Project[] = [
     id: "workspace-canvas-pro",
     title: "Workspace Canvas Pro",
     description: "Professional workspace and canvas for creative projects",
-    thumbnail: smartboardThumb,
+    thumbnail: workspaceCanvasThumb,
     appUrl: "https://workspace-canvaspro-by-talha.lovable.app",
     category: "Productivity",
     featured: true,
@@ -280,7 +305,7 @@ export const projects: Project[] = [
     id: "cycletime-monthly",
     title: "CycleTime Monthly",
     description: "Monthly cycle tracking and health monitoring app",
-    thumbnail: calendeThumb,
+    thumbnail: cycletimeThumb,
     appUrl: "https://cycletime-monthly.vercel.app/",
     category: "Health & Fitness",
     featured: true,
@@ -290,7 +315,7 @@ export const projects: Project[] = [
     id: "safe-haven-timer",
     title: "Safe Haven Timer",
     description: "Productivity timer with focus sessions and break reminders",
-    thumbnail: focusTimerThumb,
+    thumbnail: safeHavenTimerThumb,
     appUrl: "https://remix-of-safe-haven-timer.vercel.app/",
     category: "Productivity",
     featured: true,
@@ -300,7 +325,7 @@ export const projects: Project[] = [
     id: "mesbahul-alam-library",
     title: "Mesbahul Alam Library",
     description: "Digital library platform for educational resources and books",
-    thumbnail: onlineCourseThumb,
+    thumbnail: mesbahulLibraryThumb,
     appUrl: "https://mesbahulalam-library01.lovable.app",
     category: "Education",
     featured: true,
@@ -403,7 +428,7 @@ export const projects: Project[] = [
     id: "ai-mini-bot",
     title: "AI Mini Bot",
     description: "একটি ছোট এআই চ্যাটবট যা ব্যবহারকারীদের সাধারণ প্রশ্নের উত্তর দিতে পারে",
-    thumbnail: tabeyaAiThumb,
+    thumbnail: aiMiniBotThumb,
     appUrl: "https://talha388204.github.io/AI-CHATBOT/full-error%20free",
     category: "AI / ML"
   },
@@ -428,7 +453,7 @@ export const projects: Project[] = [
     id: "facebook-clone",
     title: "Facebook Clone",
     description: "ফেসবুক স্টাইল ডেমো — সাইন-আপ, প্রোফাইল ও পোস্ট প্রদর্শন",
-    thumbnail: socialMediaThumb,
+    thumbnail: facebookCloneThumb,
     appUrl: "https://talha388204.github.io/great-social-app/",
     category: "Social Media",
     premium: false
@@ -437,7 +462,7 @@ export const projects: Project[] = [
     id: "simple-social",
     title: "Simple Social App",
     description: "একটি সাধারণ সোশ্যাল মিডিয়া ডেমো — প্রোফাইল ও পোষ্ট প্রদর্শন করে",
-    thumbnail: socialMediaThumb,
+    thumbnail: simpleSocialThumb,
     appUrl: "https://talha-171219.github.io/social-media/",
     category: "Social Media"
   },
@@ -445,7 +470,7 @@ export const projects: Project[] = [
     id: "personal-chat",
     title: "Personal Chat",
     description: "লাইটওয়েট চ্যাট অ্যাপ ডেমো — প্রাইভেট মেসেজিং ইন্টারফেস",
-    thumbnail: chatAppThumb,
+    thumbnail: personalChatThumb,
     appUrl: "https://talha-171219.github.io/lite-chat-app.minha/",
     category: "Communication"
   },
@@ -486,7 +511,7 @@ export const projects: Project[] = [
     id: "song-app",
     title: "Song App",
     description: "A lightweight music player demo to play and browse songs",
-    thumbnail: mediaPlayerThumb,
+    thumbnail: songAppThumb,
     appUrl: "https://talha-2008.github.io/song-app/",
     category: "Entertainment"
   },
@@ -494,7 +519,7 @@ export const projects: Project[] = [
     id: "browser-demo",
     title: "Browser",
     description: "Hosted demo app showcasing small experiments",
-    thumbnail: mgxDemoThumb,
+    thumbnail: browserDemoThumb,
     appUrl: "https://talha-nbx9hswi6z.mgx.world",
     category: "Demo"
   },
@@ -502,7 +527,7 @@ export const projects: Project[] = [
     id: "app-lock-demo",
     title: "App Lock Demo",
     description: "Interactive playground on mgx.world",
-    thumbnail: mgxDemoThumb,
+    thumbnail: appLockThumb,
     appUrl: "https://talha-ihh2men5lvc.mgx.world",
     category: "Demo"
   },
@@ -510,7 +535,7 @@ export const projects: Project[] = [
     id: "travel-companion",
     title: "Travel Companion",
     description: "Frontend experiments and UI showcase",
-    thumbnail: mgxDemoThumb,
+    thumbnail: travelCompanionThumb,
     appUrl: "https://talha-gi6t9ppy8ae.mgx.world",
     category: "Demo"
   },
@@ -518,7 +543,7 @@ export const projects: Project[] = [
     id: "capcut-lite-demo",
     title: "Capcut Lite Demo",
     description: "Hosted demo app / playground on mgx.world",
-    thumbnail: mgxDemoThumb,
+    thumbnail: capcutLiteThumb,
     appUrl: "https://talha-dhchttrobui.mgx.world",
     category: "Demo"
   },
@@ -577,7 +602,7 @@ export const projects: Project[] = [
     id: "personal-finance",
     title: "Personal Finance",
     description: "Income & expense tracker to help manage daily finances",
-    thumbnail: moneyTrackerThumb,
+    thumbnail: personalFinanceThumb,
     appUrl: "https://talha-171219.github.io/personal-finance-/",
     category: "Finance"
   },
@@ -637,7 +662,7 @@ export const projects: Project[] = [
     id: "pixel-runner",
     title: "Pixel Runner",
     description: "Browser-based pixel art runner game — jump, run and collect points",
-    thumbnail: gamesThumb,
+    thumbnail: pixelRunnerThumb,
     appUrl: "https://talha-2008.github.io/pixel-runner/",
     category: "Games"
   },
@@ -645,7 +670,7 @@ export const projects: Project[] = [
     id: "tic-tac-toe",
     title: "Tic Tac Toe",
     description: "Classic tic-tac-toe game you can play against a friend or the computer",
-    thumbnail: gamesThumb,
+    thumbnail: ticTacToeThumb,
     appUrl: "https://talha-2008.github.io/tic-tac-toe-/",
     category: "Games"
   },
@@ -725,7 +750,7 @@ export const projects: Project[] = [
     id: "hajj-journey-guide",
     title: "Hajj Journey Guide",
     description: "Complete guide for Hajj pilgrimage with step-by-step instructions",
-    thumbnail: alQuranThumb,
+    thumbnail: hajjGuideThumb,
     appUrl: "https://hajj-journey-guide-by-talha.lovable.app",
     category: "Religion",
     featured: false
@@ -734,7 +759,7 @@ export const projects: Project[] = [
     id: "telegram-id",
     title: "Telegram ID",
     description: "Utility tool to find and share Telegram user IDs",
-    thumbnail: chatAppThumb,
+    thumbnail: telegramIdThumb,
     appUrl: "https://telegram-id-hazel.vercel.app/",
     category: "Utility",
     featured: false
