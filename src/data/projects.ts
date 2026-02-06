@@ -73,7 +73,38 @@ export const projects: Project[] = [
     premium: true
   },
 
-  // ===== NEW PREMIUM PROJECTS (Serial Order) =====
+  // ===== INSERTED PREMIUM PROJECTS (After Muslim Corner) =====
+  {
+    id: "ramadan-companion",
+    title: "Ramadan Companion",
+    description: "Ramadan-focused utilities, schedules and resources (placeholder description)",
+    thumbnail: muslimCornerThumb,
+    appUrl: "https://ramadan-companio-bytalha.lovable.app",
+    category: "Religion",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "daily-duas",
+    title: "Daily Duas",
+    description: "Collection of daily duas and short supplications (placeholder description)",
+    thumbnail: muslimCornerThumb,
+    appUrl: "https://dailyduas.lovable.app",
+    category: "Religion",
+    featured: true,
+    premium: true
+  },
+  {
+    id: "social-network",
+    title: "Social Network",
+    description: "Full-featured social network (Facebook-like) demo (placeholder description)",
+    thumbnail: socialMediaThumb,
+    appUrl: "https://social-network-mhtfinal.lovable.app",
+    category: "Social Media",
+    premium: true
+  },
+
+  // ===== Previously Existing Premium Projects (continuing) =====
   {
     id: "flowrec",
     title: "FlowRec",
@@ -114,14 +145,68 @@ export const projects: Project[] = [
     featured: true,
     premium: true
   },
+  // ===== NEW PREMIUM PROJECTS (After ChatSpark) =====
   {
-    id: "exam-simulator-pro",
-    title: "Exam Simulator Pro",
-    description: "Professional exam simulation platform for practice tests",
-    thumbnail: hscQuizThumb,
-    appUrl: "https://examsimulatorprobytalha-final.lovable.app",
+    id: "studywiz-journal",
+    title: "StudyWiz Journal",
+    description: "Study journal and notes app (placeholder description)",
+    thumbnail: studyHelperThumb,
+    appUrl: "https://studywiz-journal-by-talha.lovable.app",
     category: "Education",
-    featured: true,
+    premium: true
+  },
+  {
+    id: "allinone-megatools",
+    title: "All-in-One MegaTools",
+    description: "A collection of powerful utilities and tools (placeholder description)",
+    thumbnail: mgxDemoThumb,
+    appUrl: "https://allinone-megatools.lovable.app",
+    category: "Utility",
+    premium: true
+  },
+  {
+    id: "ludo-master",
+    title: "Ludo Master",
+    description: "Online Ludo game with multiplayer support (placeholder description)",
+    thumbnail: gamesThumb,
+    appUrl: "https://ludomasterfinal.lovable.app",
+    category: "Games",
+    premium: true
+  },
+  {
+    id: "breach-checker",
+    title: "Breach Checker",
+    description: "Security tool to check data breaches and vulnerabilities (placeholder description)",
+    thumbnail: imageConverterThumb,
+    appUrl: "https://breachchecker.lovable.app",
+    category: "Security",
+    premium: true
+  },
+  {
+    id: "bangladesh-calendar-2026",
+    title: "Bangladesh Calendar 2026",
+    description: "Bangladesh-specific calendar for 2026 with holidays (placeholder description)",
+    thumbnail: calendeThumb,
+    appUrl: "https://bangladeshcalender2026.lovable.app",
+    category: "Productivity",
+    premium: true
+  },
+  {
+    id: "taka-track-ai",
+    title: "Taka Track AI",
+    description: "AI-powered finance tracker and insights (placeholder description)",
+    thumbnail: tabeyaAiThumb,
+    appUrl: "https://takatrackai.lovable.app",
+    category: "Finance",
+    premium: true
+  },
+  {
+    id: "decide-room",
+    title: "Decide Room",
+    description: "Decision making tool to help groups decide faster (placeholder description)",
+    thumbnail: realspaceDesignerThumb,
+    appUrl: "https://decide-room.lovable.app",
+    category: "Utility",
     premium: true
   },
   {
@@ -224,7 +309,7 @@ export const projects: Project[] = [
     appUrl: "https://campusconect.lovable.app/",
     category: "Web Development",
     featured: true,
-    premium: true
+    premium: false
   },
   {
     id: "study-helper",
@@ -312,7 +397,7 @@ export const projects: Project[] = [
     thumbnail: onlineCourseThumb,
     appUrl: "https://talha-388204.github.io/ONLINE-COURSE-PLATFORM/",
     category: "Education",
-    premium: true
+    premium: false
   },
   {
     id: "ecommerce-demo",
@@ -329,7 +414,7 @@ export const projects: Project[] = [
     thumbnail: socialMediaThumb,
     appUrl: "https://talha388204.github.io/great-social-app/",
     category: "Social Media",
-    premium: true
+    premium: false
   },
   {
     id: "simple-social",
@@ -370,7 +455,7 @@ export const projects: Project[] = [
     thumbnail: moneyTrackerThumb,
     appUrl: "https://talha388204.github.io/money-tracker/",
     category: "Finance",
-    premium: true
+    premium: false
   },
   {
     id: "focus-timer",
@@ -427,7 +512,7 @@ export const projects: Project[] = [
     thumbnail: imageConverterThumb,
     appUrl: "https://talha-388204.github.io/Image-converter/",
     category: "Utility",
-    premium: true
+    premium: false
   },
   {
     id: "qr-generator",
@@ -436,7 +521,7 @@ export const projects: Project[] = [
     thumbnail: qrGeneratorThumb,
     appUrl: "https://talha-388204.github.io/QR-Code-generator/",
     category: "Utility",
-    premium: true
+    premium: false
   },
   {
     id: "video-call",
@@ -486,7 +571,7 @@ export const projects: Project[] = [
     thumbnail: sosAppThumb,
     appUrl: "https://talha-2008.github.io/SOS-APP/",
     category: "Safety",
-    premium: true
+    premium: false
   },
   {
     id: "land360",
@@ -520,7 +605,7 @@ export const projects: Project[] = [
     thumbnail: hscQuizThumb,
     appUrl: "https://app-lime-panda.reflex.run/",
     category: "Education",
-    premium: true
+    premium: false
   },
   {
     id: "result-dashboard",
@@ -529,7 +614,7 @@ export const projects: Project[] = [
     thumbnail: resultDashboardThumb,
     appUrl: "https://resultdashboard-reflex-navy-ocean.reflex.run/",
     category: "Education",
-    premium: true
+    premium: false
   },
   {
     id: "pixel-runner",
@@ -565,6 +650,60 @@ export const projects: Project[] = [
   },
 
   // ===== SIMPLE APPS (Moved from Premium) =====
+  {
+    id: "iconjoy-vault",
+    title: "IconJoy Vault",
+    description: "IconJoy Vault — secure storage for icons and assets (placeholder)",
+    thumbnail: mgxDemoThumb,
+    appUrl: "https://iconjoy-vault.lovable.app",
+    category: "Utility",
+    featured: false
+  },
+  {
+    id: "allinone-camerav2",
+    title: "All-in-One Camera v2",
+    description: "Camera utility with filters and tools (placeholder)",
+    thumbnail: mgxDemoThumb,
+    appUrl: "https://allinone-camerav2.lovable.app",
+    category: "Photography",
+    featured: false
+  },
+  {
+    id: "tasbihpro",
+    title: "Tasbih Pro",
+    description: "Digital tasbih and counting app for zikr (placeholder)",
+    thumbnail: mgxDemoThumb,
+    appUrl: "https://tasbihpro.lovable.app",
+    category: "Religion",
+    featured: false
+  },
+  {
+    id: "travel-with-talha",
+    title: "Travel with Talha",
+    description: "Travel guides and trip planner by Talha (placeholder)",
+    thumbnail: mgxDemoThumb,
+    appUrl: "https://travel-with-talha.lovable.app",
+    category: "Travel",
+    featured: false
+  },
+  {
+    id: "flipclock-final",
+    title: "FlipClock Final",
+    description: "Stylish flip clock widget and timers (placeholder)",
+    thumbnail: mgxDemoThumb,
+    appUrl: "https://flipclock-final.lovable.app",
+    category: "Productivity",
+    featured: false
+  },
+  {
+    id: "passwordprotect",
+    title: "Password Protect",
+    description: "Simple password protection utility for notes and files (placeholder)",
+    thumbnail: mgxDemoThumb,
+    appUrl: "https://passwordprotect.lovable.app",
+    category: "Security",
+    featured: false
+  },
   {
     id: "hajj-journey-guide",
     title: "Hajj Journey Guide",

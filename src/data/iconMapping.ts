@@ -15,6 +15,35 @@ export const getIconForProject = (title: string, category: string): string => {
   const titleLower = title.toLowerCase();
   const categoryLower = category.toLowerCase();
 
+  // New project-specific mappings
+  if (titleLower.includes("ramadan") || titleLower.includes("dua") || titleLower.includes("duas")) {
+    return quranIcon;
+  }
+
+  if (titleLower.includes("studywiz") || titleLower.includes("journal") || titleLower.includes("studywiz journal")) {
+    return educationIcon;
+  }
+
+  if (titleLower.includes("mega") || titleLower.includes("megatools") || titleLower.includes("mega tools")) {
+    return productivityIcon;
+  }
+
+  if (titleLower.includes("ludo") || titleLower.includes("ludo master")) {
+    return gamingIcon;
+  }
+
+  if (titleLower.includes("breach") || titleLower.includes("breach-checker")) {
+    return defaultIcon;
+  }
+
+  if (titleLower.includes("bangladesh") && titleLower.includes("calendar")) {
+    return productivityIcon;
+  }
+
+  if (titleLower.includes("decide") || titleLower.includes("decide-room")) {
+    return productivityIcon;
+  }
+
   // Quran & Religion related
   if (titleLower.includes("quran") || titleLower.includes("al quran") || 
       categoryLower.includes("religion") || categoryLower.includes("islamic")) {

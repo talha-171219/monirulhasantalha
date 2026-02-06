@@ -44,7 +44,48 @@ const SimpleProjects = () => {
         premium: p.premium || false,
       }));
       const staticSimple = staticProjects.filter(p => !p.premium);
-      setProjects([...staticSimple, ...dbProjects]);
+
+      const topOrder = [
+        "iconjoy-vault",
+        "allinone-camerav2",
+        "tasbihpro",
+        "travel-with-talha",
+        "flipclock-final",
+        "passwordprotect",
+        "facebook-clone",
+        "money-tracker",
+        "image-converter",
+        "qr-generator",
+        "sos-app",
+        "campusconnect",
+        "online-course",
+      ];
+
+      const bottomOrder = ["hsc-quiz", "result-dashboard", "exam-simulator-pro"];
+
+      const byId = new Map(staticSimple.map((p) => [p.id, p]));
+
+      const orderedTop: Project[] = [];
+      topOrder.forEach((id) => {
+        if (byId.has(id)) {
+          orderedTop.push(byId.get(id)!);
+          byId.delete(id);
+        }
+      });
+
+      const orderedBottom: Project[] = [];
+      bottomOrder.forEach((id) => {
+        if (byId.has(id)) {
+          orderedBottom.push(byId.get(id)!);
+          byId.delete(id);
+        }
+      });
+
+      const middle = Array.from(byId.values());
+
+      const orderedStatic = [...orderedTop, ...middle, ...orderedBottom];
+
+      setProjects([...orderedStatic, ...dbProjects]);
     }
   };
 
