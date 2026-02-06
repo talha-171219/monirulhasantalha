@@ -14,6 +14,7 @@ import Projects from "./pages/Projects";
 import AllProjects from "./pages/AllProjects";
 import PremiumProjects from "./pages/PremiumProjects";
 import SimpleProjects from "./pages/SimpleProjects";
+import GamesProjects from "./pages/GamesProjects";
 import PersonalProjects from "./pages/PersonalProjects";
 import ProjectView from "./pages/ProjectView";
 import Favorites from "./pages/Favorites";
@@ -131,6 +132,7 @@ const App = () => {
               <Route path="/projects/all" element={<AllProjects />} />
               <Route path="/projects/premium" element={<PremiumProjects />} />
               <Route path="/projects/simple" element={<SimpleProjects />} />
+              <Route path="/projects/games" element={<GamesProjects />} />
               <Route path="/projects/personal" element={<PersonalProjects />} />
               <Route path="/project/:id" element={<ProjectView />} />
               <Route path="/favorites" element={<Favorites />} />
