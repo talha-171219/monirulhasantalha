@@ -7,10 +7,42 @@ const Projects = () => {
   const navigate = useNavigate();
 
   const projectCategories = [
-    { path: "/projects/all", label: "All Projects", icon: Layers, description: "Browse all my work" },
-    { path: "/projects/premium", label: "Premium Projects", icon: Crown, description: "Advanced full-stack apps", isPremium: true },
-    { path: "/projects/simple", label: "Simple Apps", icon: Sparkles, description: "Quick utility tools" },
-    { path: "/projects/personal", label: "Personal Projects", icon: User, description: "My personal apps & tools", isPersonal: true },
+    { 
+      path: "/projects/all", 
+      label: "All Projects", 
+      icon: Layers, 
+      description: "Browse all my work",
+      colorClass: "bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border border-blue-500/30 hover:border-blue-400/50 hover:from-blue-600/30 hover:to-indigo-600/30",
+      iconClass: "text-blue-400",
+      descClass: "text-blue-300/70"
+    },
+    { 
+      path: "/projects/premium", 
+      label: "Premium Projects", 
+      icon: Crown, 
+      description: "Advanced full-stack apps", 
+      colorClass: "bg-gradient-to-r from-violet-600/20 to-purple-600/20 border border-violet-500/30 hover:border-violet-400/50 hover:from-violet-600/30 hover:to-purple-600/30 shadow-[0_0_20px_hsla(270,70%,50%,0.2)]",
+      iconClass: "text-violet-400",
+      descClass: "text-violet-300/70"
+    },
+    { 
+      path: "/projects/simple", 
+      label: "Simple Apps", 
+      icon: Sparkles, 
+      description: "Quick utility tools",
+      colorClass: "bg-gradient-to-r from-cyan-600/20 to-teal-600/20 border border-cyan-500/30 hover:border-cyan-400/50 hover:from-cyan-600/30 hover:to-teal-600/30",
+      iconClass: "text-cyan-400",
+      descClass: "text-cyan-300/70"
+    },
+    { 
+      path: "/projects/personal", 
+      label: "Personal Projects", 
+      icon: User, 
+      description: "My personal apps & tools",
+      colorClass: "bg-gradient-to-r from-emerald-600/20 to-green-600/20 border border-emerald-500/30 hover:border-emerald-400/50 hover:from-emerald-600/30 hover:to-green-600/30",
+      iconClass: "text-emerald-400",
+      descClass: "text-emerald-300/70"
+    },
   ];
 
   return (
@@ -41,30 +73,12 @@ const Projects = () => {
                   <Button
                     onClick={() => navigate(cat.path)}
                     size="lg"
-                    className={`w-full h-20 text-lg justify-start gap-4 ${
-                      cat.isPremium 
-                        ? 'glow-button' 
-                        : cat.isPersonal 
-                          ? 'bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 hover:border-green-400/50 text-foreground' 
-                          : 'glass-card hover:border-primary/30 bg-transparent hover:bg-primary/10 text-foreground'
-                    }`}
+                    className={`w-full h-20 text-lg justify-start gap-4 ${cat.colorClass} text-foreground transition-all duration-300`}
                   >
-                    <cat.icon className={`w-6 h-6 ${
-                      cat.isPremium 
-                        ? 'text-white' 
-                        : cat.isPersonal 
-                          ? 'text-green-400' 
-                          : 'text-accent icon-glow'
-                    }`} />
+                    <cat.icon className={`w-6 h-6 ${cat.iconClass}`} />
                     <div className="text-left">
                       <div className="font-semibold">{cat.label}</div>
-                      <div className={`text-xs ${
-                        cat.isPremium 
-                          ? 'text-white/70' 
-                          : cat.isPersonal 
-                            ? 'text-green-300/70' 
-                            : 'text-muted-foreground'
-                      }`}>{cat.description}</div>
+                      <div className={`text-xs ${cat.descClass}`}>{cat.description}</div>
                     </div>
                   </Button>
                 </motion.div>
