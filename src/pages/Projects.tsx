@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Crown, Layers, Sparkles, User } from "lucide-react";
+import { Crown, Gamepad2, Layers, Sparkles, User } from "lucide-react";
 
 const Projects = () => {
   const navigate = useNavigate();
@@ -36,6 +36,16 @@ const Projects = () => {
       hoverStyle: "hover:shadow-[0_0_25px_hsla(185,80%,45%,0.5)]",
       iconClass: "text-white",
       descClass: "text-cyan-100/80"
+    },
+    { 
+      path: "/projects/games", 
+      label: "Games", 
+      icon: Gamepad2, 
+      description: "Fun gaming experiences",
+      bgStyle: "bg-[linear-gradient(135deg,hsl(340,80%,50%)_0%,hsl(20,90%,55%)_100%)]",
+      hoverStyle: "hover:shadow-[0_0_25px_hsla(340,80%,55%,0.5)]",
+      iconClass: "text-white",
+      descClass: "text-pink-100/80"
     },
     { 
       path: "/projects/personal", 
