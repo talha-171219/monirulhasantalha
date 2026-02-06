@@ -17,6 +17,7 @@ import SimpleProjects from "./pages/SimpleProjects";
 import GamesProjects from "./pages/GamesProjects";
 import PersonalProjects from "./pages/PersonalProjects";
 import ProjectView from "./pages/ProjectView";
+import AnotherActivities from "./pages/AnotherActivities";
 import Favorites from "./pages/Favorites";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
@@ -135,6 +136,7 @@ const App = () => {
               <Route path="/projects/games" element={<GamesProjects />} />
               <Route path="/projects/personal" element={<PersonalProjects />} />
               <Route path="/project/:id" element={<ProjectView />} />
+              <Route path="/activities" element={<AnotherActivities />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/about" element={<About />} />
               <Route path="/blog" element={<Blog />} />

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Sparkles, Zap, Code2, Rocket, BookOpen } from "lucide-react";
+import { ArrowRight, Sparkles, Zap, Code2, Rocket, BookOpen, Activity } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, type Variants, type Easing } from "framer-motion";
 import { projects as staticProjects } from "@/data/projects";
@@ -127,16 +127,23 @@ const Home = () => {
             </Link>
             <Link
               to="/about"
-              className="glow-button-outline inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-foreground hover:text-primary transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105 bg-[linear-gradient(135deg,hsl(280,70%,50%)_0%,hsl(320,80%,55%)_100%)] hover:shadow-[0_0_20px_hsla(280,70%,55%,0.5)]"
             >
               <span>About Me</span>
             </Link>
             <Link
               to="/blog"
-              className="glow-button-outline inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-foreground hover:text-accent transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105 bg-[linear-gradient(135deg,hsl(185,80%,40%)_0%,hsl(200,85%,50%)_100%)] hover:shadow-[0_0_20px_hsla(185,80%,45%,0.5)]"
             >
               <BookOpen className="w-4 h-4" />
               <span>Blog</span>
+            </Link>
+            <Link
+              to="/activities"
+              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-white transition-all duration-300 hover:scale-105 bg-[linear-gradient(135deg,hsl(35,90%,50%)_0%,hsl(20,90%,55%)_100%)] hover:shadow-[0_0_20px_hsla(35,90%,55%,0.5)]"
+            >
+              <Activity className="w-4 h-4" />
+              <span>Another Activities</span>
             </Link>
           </motion.div>
 
