@@ -78,6 +78,16 @@ import songAppThumb from "@/assets/thumbnails/song-app.jpg";
 import safeHavenTimerThumb from "@/assets/thumbnails/safe-haven-timer.jpg";
 import hscExamThumb from "@/assets/thumbnails/hsc-exam.jpg";
 import hajjGuideThumb from "@/assets/thumbnails/hajj-guide.jpg";
+// New premium project thumbnails
+import anotherActivitiesThumb from "@/assets/thumbnails/another-activities.jpg";
+import arabicBanglaDictThumb from "@/assets/thumbnails/arabic-bangla-dict.jpg";
+import textRepeaterThumb from "@/assets/thumbnails/text-repeater.jpg";
+import qrScannerThumb from "@/assets/thumbnails/qr-scanner.jpg";
+import allinoneQrcodeThumb from "@/assets/thumbnails/allinone-qrcode.jpg";
+import allinoneTranslatorThumb from "@/assets/thumbnails/allinone-translator.jpg";
+import ageCalculatorThumb from "@/assets/thumbnails/age-calculator.jpg";
+import dailyTaskThumb from "@/assets/thumbnails/daily-task.jpg";
+import quickNotesThumb from "@/assets/thumbnails/quick-notes.jpg";
 
 export interface Project {
   id: string;
@@ -329,6 +339,89 @@ export const projects: Project[] = [
     appUrl: "https://mesbahulalam-library01.lovable.app",
     category: "Education",
     featured: true,
+    premium: true
+  },
+
+  // ===== NEW PREMIUM PROJECTS (Batch 3) =====
+  {
+    id: "another-activities-portfolio",
+    title: "Another Activities",
+    description: "Showcase of additional activities and projects beyond the main portfolio",
+    thumbnail: anotherActivitiesThumb,
+    appUrl: "https://anotheractivitiesforportfolio.lovable.app",
+    category: "Personal",
+    premium: true
+  },
+  {
+    id: "arabic-bangla-dictionary",
+    title: "Arabic-Bangla Dictionary",
+    description: "Arabic to Bangla dictionary for easy language translation and learning",
+    thumbnail: arabicBanglaDictThumb,
+    appUrl: "https://arabic-bangla.lovable.app",
+    category: "Education",
+    premium: true
+  },
+  {
+    id: "allinone-text-repeater",
+    title: "All-in-One Text Repeater",
+    description: "Repeat any text multiple times instantly — perfect for messaging and testing",
+    thumbnail: textRepeaterThumb,
+    appUrl: "https://allinone-textrepeater.lovable.app",
+    category: "Utility",
+    premium: true
+  },
+  {
+    id: "allinone-qr-scanner",
+    title: "All-in-One QR Scanner",
+    description: "Scan any QR code instantly using your camera with fast and accurate results",
+    thumbnail: qrScannerThumb,
+    appUrl: "https://allinone-qrscanner.lovable.app",
+    category: "Utility",
+    premium: true
+  },
+  {
+    id: "allinone-qr-code",
+    title: "All-in-One QR Code Generator",
+    description: "Generate customizable QR codes for URLs, text, contacts and more",
+    thumbnail: allinoneQrcodeThumb,
+    appUrl: "https://allinone-qrcode.lovable.app",
+    category: "Utility",
+    premium: true
+  },
+  {
+    id: "allinone-translator-pro",
+    title: "All-in-One Translator",
+    description: "Translate text between multiple languages with a clean and simple interface",
+    thumbnail: allinoneTranslatorThumb,
+    appUrl: "https://allinone-translator.lovable.app",
+    category: "Utility",
+    premium: true
+  },
+  {
+    id: "allinone-age-calculator",
+    title: "All-in-One Age Calculator",
+    description: "Calculate your exact age in years, months, days with birthday countdown",
+    thumbnail: ageCalculatorThumb,
+    appUrl: "https://allinone-agecalculator.lovable.app",
+    category: "Utility",
+    premium: true
+  },
+  {
+    id: "daily-task-final",
+    title: "Daily Task",
+    description: "Simple and effective daily task manager to organize your day productively",
+    thumbnail: dailyTaskThumb,
+    appUrl: "https://dailytaskfinal.lovable.app",
+    category: "Productivity",
+    premium: true
+  },
+  {
+    id: "quick-notes",
+    title: "Quick Notes",
+    description: "Lightweight note-taking app to jot down ideas and reminders quickly",
+    thumbnail: quickNotesThumb,
+    appUrl: "https://quick-notes-by-talha.lovable.app",
+    category: "Productivity",
     premium: true
   },
 
