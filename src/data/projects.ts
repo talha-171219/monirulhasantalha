@@ -97,6 +97,9 @@ import allinoneImgConverterThumb from "@/assets/thumbnails/allinone-imgconverter
 import wordbywordQuranThumb from "@/assets/thumbnails/wordbyword-quran.jpg";
 import dailyProgressThumb from "@/assets/thumbnails/daily-progress.jpg";
 import biodataCraftThumb from "@/assets/thumbnails/biodata-craft.jpg";
+// New games thumbnails
+import sudokuMasterclassThumb from "@/assets/thumbnails/sudoku-masterclass.jpg";
+import mindeasePiecesThumb from "@/assets/thumbnails/mindease-pieces.jpg";
 
 export interface Project {
   id: string;
@@ -766,6 +769,22 @@ export const projects: Project[] = [
     description: "Browser-based pixel art runner game — jump, run and collect points",
     thumbnail: pixelRunnerThumb,
     appUrl: "https://talha-2008.github.io/pixel-runner/",
+    category: "Games"
+  },
+  {
+    id: "sudoku-masterclass",
+    title: "Sudoku Masterclass",
+    description: "Classic Sudoku puzzle game with multiple difficulty levels and hints",
+    thumbnail: sudokuMasterclassThumb,
+    appUrl: "https://sudoku-masterclass.lovable.app",
+    category: "Games"
+  },
+  {
+    id: "mindease-pieces",
+    title: "MindEase Pieces",
+    description: "Relaxing puzzle game with beautiful visuals to calm your mind",
+    thumbnail: mindeasePiecesThumb,
+    appUrl: "https://mindease-pieces.lovable.app",
     category: "Games"
   },
   {
