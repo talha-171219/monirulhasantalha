@@ -142,32 +142,32 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        
-        <AnimatePresence mode="wait">
-          {/* Audio Permission Screen - shows first time only */}
-          {showAudioPermission && (
-            <AudioPermissionScreen
-              key="audio-permission"
-              onAllow={handleAudioAllow}
-              onSkip={handleAudioSkip}
-            />
-          )}
+      <BrowserRouter>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          
+          <AnimatePresence mode="wait">
+            {/* Audio Permission Screen - shows first time only */}
+            {showAudioPermission && (
+              <AudioPermissionScreen
+                key="audio-permission"
+                onAllow={handleAudioAllow}
+                onSkip={handleAudioSkip}
+              />
+            )}
 
-          {/* Splash Screen - shows after permission or on subsequent visits */}
-          {showSplash && (
-            <SplashScreen
-              key="splash"
-              onComplete={handleSplashComplete}
-              duration={4500}
-              audioEnabled={audioEnabled}
-            />
-          )}
-        </AnimatePresence>
-        
-        <BrowserRouter>
+            {/* Splash Screen - shows after permission or on subsequent visits */}
+            {showSplash && (
+              <SplashScreen
+                key="splash"
+                onComplete={handleSplashComplete}
+                duration={4500}
+                audioEnabled={audioEnabled}
+              />
+            )}
+          </AnimatePresence>
+          
           <PWAInstallPrompt />
           <Layout>
             <Routes>
@@ -189,8 +189,8 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout>
-        </BrowserRouter>
-      </TooltipProvider>
+        </TooltipProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 };
