@@ -88,6 +88,15 @@ import allinoneTranslatorThumb from "@/assets/thumbnails/allinone-translator.jpg
 import ageCalculatorThumb from "@/assets/thumbnails/age-calculator.jpg";
 import dailyTaskThumb from "@/assets/thumbnails/daily-task.jpg";
 import quickNotesThumb from "@/assets/thumbnails/quick-notes.jpg";
+// New simple project thumbnails
+import allinoneMoneyTrackerThumb from "@/assets/thumbnails/allinone-moneytracker.jpg";
+import simpleCalculatorThumb from "@/assets/thumbnails/simple-calculator.jpg";
+import coinFlipperThumb from "@/assets/thumbnails/coin-flipper.jpg";
+import bmiCalcThumb from "@/assets/thumbnails/bmi-calc.jpg";
+import allinoneImgConverterThumb from "@/assets/thumbnails/allinone-imgconverter.jpg";
+import wordbywordQuranThumb from "@/assets/thumbnails/wordbyword-quran.jpg";
+import dailyProgressThumb from "@/assets/thumbnails/daily-progress.jpg";
+import biodataCraftThumb from "@/assets/thumbnails/biodata-craft.jpg";
 
 export interface Project {
   id: string;
@@ -854,6 +863,79 @@ export const projects: Project[] = [
     description: "Utility tool to find and share Telegram user IDs",
     thumbnail: telegramIdThumb,
     appUrl: "https://telegram-id-hazel.vercel.app/",
+    category: "Utility",
+    featured: false
+  },
+  // ===== NEW SIMPLE APPS =====
+  {
+    id: "allinone-money-tracker",
+    title: "All-in-One Money Tracker",
+    description: "Track your daily income and expenses with simple and clean interface",
+    thumbnail: allinoneMoneyTrackerThumb,
+    appUrl: "https://allinone-moneytracker.lovable.app",
+    category: "Finance",
+    featured: false
+  },
+  {
+    id: "allinone-simple-calculator",
+    title: "All-in-One Simple Calculator",
+    description: "Clean and easy-to-use calculator for everyday math calculations",
+    thumbnail: simpleCalculatorThumb,
+    appUrl: "https://allinone-simplecalculator.lovable.app",
+    category: "Utility",
+    featured: false
+  },
+  {
+    id: "allinone-coin-flipper",
+    title: "All-in-One Coin Flipper",
+    description: "Flip a virtual coin for quick decisions — heads or tails!",
+    thumbnail: coinFlipperThumb,
+    appUrl: "https://allinone-coinflipper.lovable.app",
+    category: "Entertainment",
+    featured: false
+  },
+  {
+    id: "allinone-bmi-calculator",
+    title: "All-in-One BMI Calculator",
+    description: "Calculate your Body Mass Index and get health insights instantly",
+    thumbnail: bmiCalcThumb,
+    appUrl: "https://allinone-bmicalc.lovable.app",
+    category: "Health & Fitness",
+    featured: false
+  },
+  {
+    id: "allinone-image-converter",
+    title: "All-in-One Image Converter",
+    description: "Convert images between JPG, PNG, WEBP and other formats easily",
+    thumbnail: allinoneImgConverterThumb,
+    appUrl: "https://allinone-imageconverter.lovable.app",
+    category: "Utility",
+    featured: false
+  },
+  {
+    id: "wordbyword-quran-mini",
+    title: "Word by Word Quran Mini",
+    description: "Read the Quran word by word with translation and transliteration",
+    thumbnail: wordbywordQuranThumb,
+    appUrl: "https://wordbyword-quran-mini.lovable.app",
+    category: "Religion",
+    featured: false
+  },
+  {
+    id: "daily-progress-tracker",
+    title: "Daily Progress Tracker",
+    description: "Track your daily goals and habits with streaks and progress charts",
+    thumbnail: dailyProgressThumb,
+    appUrl: "https://dailyprogresstrackerbytalha.lovable.app",
+    category: "Productivity",
+    featured: false
+  },
+  {
+    id: "biodata-craft-ai",
+    title: "Biodata Craft AI",
+    description: "Create professional biodata and resumes with AI-powered suggestions",
+    thumbnail: biodataCraftThumb,
+    appUrl: "https://biodata-craft-ai.lovable.app",
     category: "Utility",
     featured: false
   }
