@@ -17,7 +17,7 @@ export const BrowserChrome = ({ onSearch }: BrowserChromeProps) => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/projects?search=${encodeURIComponent(searchQuery)}`);
+      navigate(`/projects/all?search=${encodeURIComponent(searchQuery)}`);
       onSearch?.(searchQuery);
     }
   };
