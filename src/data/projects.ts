@@ -488,7 +488,7 @@ export const projects: Project[] = [
   },
   {
     id: "workout-flex",
-    title: "Workout Flex",
+    title: "Workout Flex (Demo)",
     description: "Fitness tracking and workout planning application",
     thumbnail: workoutFlexThumb,
     appUrl: "https://workout-flex-by-talha.lovable.app/onboarding",
