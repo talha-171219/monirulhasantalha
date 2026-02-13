@@ -58,7 +58,7 @@ const PremiumProjects = () => {
     });
   };
   
-  const premiumProjects = projects.filter(p => p.premium);
+  const premiumProjects = projects.filter(p => p.premium && p.category !== "Games" && p.category !== "Personal");
   const categories = ["All", ...new Set(premiumProjects.map((p) => p.category))];
   
   let filteredProjects = selectedCategory === "All" 

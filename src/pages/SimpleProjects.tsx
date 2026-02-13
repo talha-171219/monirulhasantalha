@@ -99,7 +99,7 @@ const SimpleProjects = () => {
     });
   };
   
-  const simpleProjects = projects.filter(p => !p.premium);
+  const simpleProjects = projects.filter(p => !p.premium && p.category !== "Games" && p.category !== "Personal");
   const categories = ["All", ...new Set(simpleProjects.map((p) => p.category))];
   
   let filteredProjects = selectedCategory === "All" 

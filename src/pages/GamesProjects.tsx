@@ -1,26 +1,21 @@
 import { useState } from "react";
 import { projects as staticProjects } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import type { Project } from "@/data/projects";
 
 const GamesProjects = () => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const { toast } = useToast();
   
-  // Game project IDs to show
-  const gameProjectIds = ["ludo-master", "pixel-runner", "tic-tac-toe"];
-  
-  // Filter projects that are games
-  const gameProjects = staticProjects.filter(p => 
-    gameProjectIds.includes(p.id) || p.category === "Games"
-  );
+  const gameProjects = staticProjects.filter(p => p.category === "Games");
+  const premiumGames = gameProjects.filter(p => p.premium);
+  const simpleGames = gameProjects.filter(p => !p.premium);
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    // Simulate refresh
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsRefreshing(false);
     toast({
@@ -58,14 +53,43 @@ const GamesProjects = () => {
             </p>
           </div>
 
-          {/* Projects Grid */}
           {gameProjects.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {gameProjects.map((project, index) => (
-                <div key={project.id} className="fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
-                  <ProjectCard project={project} />
+            <div className="space-y-8">
+              {premiumGames.length > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                      Premium Games
+                    </h2>
+                    <Badge variant="default" className="bg-gradient-to-r from-primary to-primary/80">
+                      {premiumGames.length}
+                    </Badge>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {premiumGames.map((project, index) => (
+                      <div key={project.id} className="fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
+                        <ProjectCard project={project} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
+
+              {simpleGames.length > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-2xl font-bold">Simple Games</h2>
+                    <Badge variant="secondary">{simpleGames.length}</Badge>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {simpleGames.map((project, index) => (
+                      <div key={project.id} className="fade-in" style={{ animationDelay: `${(premiumGames.length + index) * 0.05}s` }}>
+                        <ProjectCard project={project} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-12 text-muted-foreground">
