@@ -777,7 +777,8 @@ export const projects: Project[] = [
     description: "Classic Sudoku puzzle game with multiple difficulty levels and hints",
     thumbnail: sudokuMasterclassThumb,
     appUrl: "https://sudoku-masterclass.lovable.app",
-    category: "Games"
+    category: "Games",
+    premium: true
   },
   {
     id: "mindease-pieces",
@@ -785,7 +786,8 @@ export const projects: Project[] = [
     description: "Relaxing puzzle game with beautiful visuals to calm your mind",
     thumbnail: mindeasePiecesThumb,
     appUrl: "https://mindease-pieces.lovable.app",
-    category: "Games"
+    category: "Games",
+    premium: true
   },
   {
     id: "tic-tac-toe",
@@ -793,7 +795,8 @@ export const projects: Project[] = [
     description: "Classic tic-tac-toe game you can play against a friend or the computer",
     thumbnail: ticTacToeThumb,
     appUrl: "https://talha-2008.github.io/tic-tac-toe-/",
-    category: "Games"
+    category: "Games",
+    premium: true
   },
   {
     id: "media-player",
