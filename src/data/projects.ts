@@ -100,6 +100,11 @@ import biodataCraftThumb from "@/assets/thumbnails/biodata-craft.jpg";
 // New games thumbnails
 import sudokuMasterclassThumb from "@/assets/thumbnails/sudoku-masterclass.jpg";
 import mindeasePiecesThumb from "@/assets/thumbnails/mindease-pieces.jpg";
+import brickBlastThumb from "@/assets/thumbnails/games.jpg";
+import bubbleShooterThumb from "@/assets/thumbnails/games.jpg";
+import chip4inarowThumb from "@/assets/thumbnails/games.jpg";
+import runnerZenThumb from "@/assets/thumbnails/pixel-runner.jpg";
+import glowShiftArcadeThumb from "@/assets/thumbnails/pixel-runner.jpg";
 
 export interface Project {
   id: string;
@@ -797,6 +802,49 @@ export const projects: Project[] = [
     appUrl: "https://talha-2008.github.io/tic-tac-toe-/",
     category: "Games",
     premium: true
+  },
+  {
+    id: "brick-blast",
+    title: "Brick Blast",
+    description: "Addictive brick-breaking game with power-ups, levels and smooth gameplay",
+    thumbnail: brickBlastThumb,
+    appUrl: "https://brickblastbytalha.lovable.app",
+    category: "Games",
+    premium: true
+  },
+  {
+    id: "bubble-shooter",
+    title: "Bubble Shooter",
+    description: "Classic bubble shooter game — aim, shoot and pop your way to victory",
+    thumbnail: bubbleShooterThumb,
+    appUrl: "https://bubbleshooterbytalha.lovable.app",
+    category: "Games",
+    premium: true
+  },
+  {
+    id: "chip-4inarow",
+    title: "Chip 4 in a Row",
+    description: "Connect Four style strategy game — drop chips and get 4 in a row to win",
+    thumbnail: chip4inarowThumb,
+    appUrl: "https://chip-4inarow.lovable.app",
+    category: "Games",
+    premium: true
+  },
+  {
+    id: "runner-zen",
+    title: "Runner Zen",
+    description: "Relaxing endless runner with minimalist visuals and zen-inspired gameplay",
+    thumbnail: runnerZenThumb,
+    appUrl: "https://runner-zen.lovable.app",
+    category: "Games"
+  },
+  {
+    id: "glow-shift-arcade",
+    title: "Glow Shift Arcade",
+    description: "Neon-styled arcade game with glowing effects and fast-paced shifting challenges",
+    thumbnail: glowShiftArcadeThumb,
+    appUrl: "https://glow-shift-arcade.lovable.app",
+    category: "Games"
   },
   {
     id: "media-player",
