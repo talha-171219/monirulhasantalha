@@ -105,6 +105,13 @@ import bubbleShooterThumb from "@/assets/thumbnails/games.jpg";
 import chip4inarowThumb from "@/assets/thumbnails/games.jpg";
 import runnerZenThumb from "@/assets/thumbnails/pixel-runner.jpg";
 import glowShiftArcadeThumb from "@/assets/thumbnails/pixel-runner.jpg";
+// New premium project thumbnails (batch 2)
+import islamHubThumb from "@/assets/thumbnails/islam-hub.jpg";
+import weatherXThumb from "@/assets/thumbnails/weather-x.jpg";
+import geminiKeyCheckerThumb from "@/assets/thumbnails/gemini-key-checker.jpg";
+import nexasAppBuildersThumb from "@/assets/thumbnails/nexas-app-builders.jpg";
+import zenithStudyPulseThumb from "@/assets/thumbnails/zenith-study-pulse.jpg";
+import ideaLoomCodeThumb from "@/assets/thumbnails/idea-loom-code.jpg";
 
 export interface Project {
   id: string;
@@ -845,6 +852,60 @@ export const projects: Project[] = [
     thumbnail: glowShiftArcadeThumb,
     appUrl: "https://glow-shift-arcade.lovable.app",
     category: "Games"
+  },
+  {
+    id: "islam-hub",
+    title: "Islam Hub",
+    description: "All-in-one Islamic app with prayer times, Quran, duas, Qibla and more",
+    thumbnail: islamHubThumb,
+    appUrl: "https://islamhub.lovable.app",
+    category: "Islamic",
+    premium: true
+  },
+  {
+    id: "weather-x",
+    title: "WeatherX",
+    description: "Beautiful weather dashboard with real-time forecasts, favorites and location detection",
+    thumbnail: weatherXThumb,
+    appUrl: "https://weather-x-talha.lovable.app",
+    category: "Utility",
+    premium: true
+  },
+  {
+    id: "gemini-key-checker",
+    title: "Gemini Key Checker",
+    description: "Instantly verify and bulk-check your Gemini API keys with history tracking",
+    thumbnail: geminiKeyCheckerThumb,
+    appUrl: "https://geminiapi-key-checker.lovable.app",
+    category: "Tools",
+    premium: true
+  },
+  {
+    id: "nexas-app-builders",
+    title: "NexaBuild",
+    description: "AI-powered app generation platform — build full apps just by describing them",
+    thumbnail: nexasAppBuildersThumb,
+    appUrl: "https://nexas-app-builders.lovable.app",
+    category: "AI",
+    premium: true
+  },
+  {
+    id: "zenith-study-pulse",
+    title: "Zenith Study Pulse",
+    description: "Deep focus timer with calendar, analytics and history to track your study sessions",
+    thumbnail: zenithStudyPulseThumb,
+    appUrl: "https://zenith-study-pulse.lovable.app",
+    category: "Education",
+    premium: true
+  },
+  {
+    id: "idea-loom-code",
+    title: "Idea Loom Code",
+    description: "AI-assisted coding learning platform with structured lessons from basics to full-stack",
+    thumbnail: ideaLoomCodeThumb,
+    appUrl: "https://idea-loom-code.lovable.app",
+    category: "Education",
+    premium: true
   },
   {
     id: "media-player",
