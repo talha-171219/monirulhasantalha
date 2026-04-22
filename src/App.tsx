@@ -55,56 +55,21 @@ const App = () => {
       window.setTimeout(() => loader.remove(), 400);
     }
 
-    // Safety timeout - if splash doesn't complete in 10 seconds, force app ready
-    const safetyTimeout = setTimeout(() => {
-      if (!appReady) {
-        console.log("Safety timeout triggered - forcing app ready");
-        setShowAudioPermission(false);
-        setShowSplash(false);
-        setAppReady(true);
-        sessionStorage.setItem("splash_seen", "1");
-      }
-    }, 10000);
-
+    // Splash & audio permission screens are disabled (code kept for future use).
+    // App goes straight to ready state for smooth UX.
+    setShowAudioPermission(false);
+    setShowSplash(false);
+    setAppReady(true);
     try {
-      // Check if user has already seen splash in this session
-      const splashSeen = sessionStorage.getItem("splash_seen");
-
-      if (splashSeen === "1") {
-        // Already seen splash this session, go straight to app
-        setAppReady(true);
-        return () => {
-          clearTimeout(safetyTimeout);
-          window.removeEventListener("unhandledrejection", handleRejection);
-        };
-      }
-
-      // Check if audio permission was previously granted (persisted in localStorage)
-      const audioPermission = localStorage.getItem(AUDIO_PERMISSION_KEY);
-
-      if (audioPermission === "granted") {
-        // Permission already granted, skip to splash with audio
-        setAudioEnabled(true);
-        setShowSplash(true);
-      } else if (audioPermission === "denied") {
-        // User previously skipped, go to splash without audio
-        setAudioEnabled(false);
-        setShowSplash(true);
-      } else {
-        // First time - show audio permission screen
-        setShowAudioPermission(true);
-      }
-    } catch (error) {
-      // If localStorage/sessionStorage fails, just show the app
-      console.error("Storage error:", error);
-      setAppReady(true);
+      sessionStorage.setItem("splash_seen", "1");
+    } catch (e) {
+      // ignore storage errors
     }
 
     return () => {
-      clearTimeout(safetyTimeout);
       window.removeEventListener("unhandledrejection", handleRejection);
     };
-  }, [appReady]);
+  }, []);
 
   const handleAudioAllow = () => {
     try {
