@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { motion, type Variants, type Easing } from "framer-motion";
 import { projects as staticProjects } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
+import { TypewriterText } from "@/components/TypewriterText";
+import { RotatingRoles } from "@/components/RotatingRoles";
 import { supabase } from "@/integrations/supabase/client";
 import type { Project } from "@/data/projects";
 
@@ -85,7 +87,9 @@ const Home = () => {
           <motion.div variants={itemVariants}>
             <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-card text-sm font-medium animate-pulse-glow">
               <Sparkles className="w-4 h-4 text-accent icon-glow" />
-              <span className="text-foreground/90">Welcome to my portfolio</span>
+              <span className="text-foreground/90 tracking-wide uppercase text-[11px] font-semibold">
+                Portfolio · Est. 2024
+              </span>
               <span className="flex h-2 w-2 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
@@ -93,25 +97,52 @@ const Home = () => {
             </div>
           </motion.div>
 
-          {/* Main Heading */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-5xl md:text-7xl font-bold tracking-tight font-heading"
-          >
-            <span className="gradient-text">Monirul Hasan</span>
-            <br />
-            <span className="text-foreground">Talha</span>
-          </motion.h1>
-
-          {/* Subtitle */}
+          {/* Greeting */}
           <motion.p
             variants={itemVariants}
-            className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+            className="text-sm md:text-base font-medium tracking-[0.25em] uppercase text-muted-foreground"
           >
-            Web Developer & Tech Enthusiast building{" "}
-            <span className="text-accent">beautiful</span> and{" "}
-            <span className="text-primary">functional</span> experiences
+            Hello, I'm
           </motion.p>
+
+          {/* Main Heading - Typewriter Effect */}
+          <motion.h1
+            variants={itemVariants}
+            className="text-5xl md:text-7xl font-bold tracking-tight font-heading leading-[1.05]"
+          >
+            <TypewriterText
+              text="Monirul Hasan"
+              speed={85}
+              delay={300}
+              className="gradient-text"
+              showCursor={false}
+            />
+            <br />
+            <TypewriterText
+              text="Talha"
+              speed={110}
+              delay={1500}
+              className="text-foreground"
+            />
+          </motion.h1>
+
+          {/* Subtitle with rotating roles */}
+          <motion.div variants={itemVariants} className="space-y-2">
+            <p className="text-xl md:text-2xl text-foreground/90 max-w-2xl mx-auto leading-relaxed font-light">
+              I craft{" "}
+              <RotatingRoles
+                roles={[
+                  "modern web apps",
+                  "elegant interfaces",
+                  "scalable products",
+                  "delightful experiences",
+                ]}
+              />
+            </p>
+            <p className="text-sm md:text-base text-muted-foreground max-w-xl mx-auto">
+              Web Developer · UI Engineer · Tech Enthusiast
+            </p>
+          </motion.div>
 
           {/* CTA Buttons */}
           <motion.div
