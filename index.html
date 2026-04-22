@@ -27,24 +27,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="apple-touch-startup-image" href="/splash-screen.jpg">
     
-    <!-- OneSignal Push Notifications (only on published domain) -->
+    <!-- OneSignal Push Notifications: DISABLED to keep app smooth.
+         Code preserved here for future re-activation.
     <script>
-      // Only load OneSignal on the production domain
-      if (window.location.hostname === 'monirulhasantalha.lovable.app' || 
+      if (window.location.hostname === 'monirulhasantalha.lovable.app' ||
           window.location.hostname === 'monirulhasantalha.vercel.app') {
         const script = document.createElement('script');
         script.src = 'https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
         script.defer = true;
         document.head.appendChild(script);
-        
         window.OneSignalDeferred = window.OneSignalDeferred || [];
         OneSignalDeferred.push(async function(OneSignal) {
-          await OneSignal.init({
-            appId: "89bf607f-48ce-413b-be80-8f131f24dd8c",
-          });
+          await OneSignal.init({ appId: "89bf607f-48ce-413b-be80-8f131f24dd8c" });
         });
       }
     </script>
+    -->
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
