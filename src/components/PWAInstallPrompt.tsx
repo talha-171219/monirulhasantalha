@@ -108,7 +108,7 @@ export const PWAInstallPrompt = () => {
       setShowPortfolioHelp(false);
       setShowProjectInstallHelp(false);
       setShowPrompt(true);
-    }, 2000);
+    }, 20000);
 
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault();
