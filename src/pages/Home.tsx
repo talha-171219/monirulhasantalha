@@ -76,12 +76,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen pb-20 relative">
-      {/* Fixed background logo */}
-      <div
-        aria-hidden="true"
-        className="fixed inset-0 -z-10 pointer-events-none bg-no-repeat bg-center bg-contain opacity-[0.08] md:opacity-[0.1]"
-        style={{ backgroundImage: `url(${mhtBg})`, backgroundAttachment: "fixed" }}
-      />
+
 
       {/* Hero Section */}
       <section className="px-4 pt-12 pb-16 relative">
