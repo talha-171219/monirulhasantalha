@@ -5,6 +5,7 @@ import { BottomNav } from "./BottomNav";
 import { ThemeToggle } from "./ThemeToggle";
 import { FloatingChatbot } from "./FloatingChatbot";
 import { AnimatedBackground } from "./AnimatedBackground";
+import mhtBg from "@/assets/mht-logo-bg.png";
 
 interface LayoutProps {
   children: ReactNode;
