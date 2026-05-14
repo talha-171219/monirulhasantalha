@@ -8,6 +8,7 @@ import { TypewriterText } from "@/components/TypewriterText";
 import { RotatingRoles } from "@/components/RotatingRoles";
 import { supabase } from "@/integrations/supabase/client";
 import type { Project } from "@/data/projects";
+import mhtBg from "@/assets/mht-logo-bg.png";
 
 const Home = () => {
   const [projects, setProjects] = useState<Project[]>(staticProjects);
