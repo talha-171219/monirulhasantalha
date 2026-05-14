@@ -25,6 +25,14 @@ export const Layout = ({ children }: LayoutProps) => {
       {/* Animated Background */}
       <AnimatedBackground />
 
+      {!isProjectView && (
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 z-0 pointer-events-none bg-no-repeat bg-center bg-contain opacity-[0.08] md:opacity-[0.1]"
+          style={{ backgroundImage: `url(${mhtBg})`, backgroundAttachment: "fixed" }}
+        />
+      )}
+
       {!isProjectView && <BrowserChrome />}
 
       {!isProjectView && (
