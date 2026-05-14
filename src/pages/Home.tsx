@@ -8,6 +8,7 @@ import { TypewriterText } from "@/components/TypewriterText";
 import { RotatingRoles } from "@/components/RotatingRoles";
 import { supabase } from "@/integrations/supabase/client";
 import type { Project } from "@/data/projects";
+import mhtBg from "@/assets/mht-logo-bg.png";
 
 const Home = () => {
   const [projects, setProjects] = useState<Project[]>(staticProjects);
@@ -74,7 +75,14 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen pb-20 relative">
+      {/* Fixed background logo */}
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 -z-10 pointer-events-none bg-no-repeat bg-center bg-contain opacity-[0.08] md:opacity-[0.1]"
+        style={{ backgroundImage: `url(${mhtBg})`, backgroundAttachment: "fixed" }}
+      />
+
       {/* Hero Section */}
       <section className="px-4 pt-12 pb-16 relative">
         <motion.div
